@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import type {} from "@mui/lab/themeAugmentation";
-import { heroData } from "./helpers/typesDef";
+import { heroData } from "./types";
 import {
   Grid,
   Container,
