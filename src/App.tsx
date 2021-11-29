@@ -59,7 +59,7 @@ const App: React.FC = () => {
 
     console.log(111, startIndex, endIndex);
     return [...allHeroes].slice(startIndex, endIndex);
-  }, [page, allHeroes, paginationPagesQuantity, heroesPerPage, isMobile]);
+  }, [page, allHeroes, paginationPagesQuantity, heroesPerPage]);
 
   useEffect(() => {
     getHeroesFromServer();
