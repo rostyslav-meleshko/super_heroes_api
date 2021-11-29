@@ -1,7 +1,8 @@
 import React, { FC, useMemo, useState } from "react";
-import { Container, ImageList, ImageListItem } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
+import HeroesList from "./HeroesList";
 import { heroData } from "../../types";
 
 type MainProps = {
@@ -34,24 +35,7 @@ const Main: FC<MainProps> = ({ isMobile, allHeroes }) => {
   console.log("isMobile", isMobile);
   return (
     <main>
-      <Container maxWidth={isMobile ? "sm" : "lg"}>
-        Heroes list
-        {isMobile && <p> mobile </p>}
-        {paginatedHeroes.length > 0 && (
-          <ImageList cols={isMobile ? 3 : 6} gap={2} rowHeight={180}>
-            {paginatedHeroes.map((hero) => (
-              <ImageListItem key={hero.id}>
-                <img
-                  className="hero_card"
-                  src={`${hero.images.md}`}
-                  alt={`${hero.name} avatar`}
-                  width="120"
-                />
-              </ImageListItem>
-            ))}
-          </ImageList>
-        )}
-      </Container>
+      <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
 
       <Container maxWidth={isMobile ? "sm" : "lg"}>
         SuperHeroes Pagination
