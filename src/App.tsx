@@ -1,5 +1,4 @@
-import { FC, useEffect, useState } from "react";
-import { heroData } from "./types";
+import { FC } from "react";
 import {
   Grid,
   Container,
@@ -9,34 +8,12 @@ import {
 
 import Header from "./Components/Header/Header";
 import Main from "./Components/Main/Main";
+import { useAllHeroesRequest } from "./services/hooks";
 import "./App.css";
 
 const App: FC = () => {
   const isMobile = useMediaQuery("(max-width: 640px)");
-  const [allHeroes, setAllHeroes] = useState<heroData[] | []>([]);
-  const [isServerResponded, setIsServerResponded] = useState(false);
-  const [isServerError, setIsServerError] = useState(false);
-
-  const getHeroesFromServer = async () => {
-    await fetch("https://akabab.github.io/superhero-api/api/all.json")
-      .then((response) => response.json())
-      .then((result) => {
-        setAllHeroes(result);
-        setIsServerResponded(true);
-        setIsServerError(false);
-      })
-      .catch((error) => {
-        console.warn(error);
-        setIsServerResponded(true);
-        setIsServerError(true);
-      });
-  };
-
-  const handleSearchInput = () => {};
-
-  useEffect(() => {
-    getHeroesFromServer();
-  }, []);
+  const allHeroes = useAllHeroesRequest();
 
   return (
     <div className="App">
@@ -48,7 +25,7 @@ const App: FC = () => {
       >
         <Header isMobile={isMobile} />
 
-        {!isServerResponded && (
+        {allHeroes.isLoading && (
           <Container>
             <CircularProgress
               size={200}
@@ -58,14 +35,14 @@ const App: FC = () => {
           </Container>
         )}
 
-        {isServerError && (
+        {allHeroes.isError && (
           <Container>
             <p>Loading error. Reload page</p>
           </Container>
         )}
 
-        {isServerResponded && !isServerError && (
-          <Main isMobile={isMobile} allHeroes={allHeroes} />
+        {!allHeroes.isLoading && !allHeroes.isError && (
+          <Main isMobile={isMobile} allHeroes={allHeroes.data} />
         )}
       </Grid>
     </div>
