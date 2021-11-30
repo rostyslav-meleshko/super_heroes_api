@@ -1,5 +1,11 @@
 import React, { FC, useMemo, useState } from "react";
-import { CircularProgress, Container, useMediaQuery } from "@material-ui/core";
+import {
+  CircularProgress,
+  Container,
+  useMediaQuery,
+  Box,
+} from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
 import HeroesList from "./HeroesList";
@@ -7,7 +13,8 @@ import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
 import { definePaginatedHeroes } from "./utils/functions";
 
 const Main: FC = () => {
-  const isMobile = useMediaQuery("(max-width: 640px)");
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { isLoading, data: heroes, isError } = useAllHeroesRequest();
   const [page, setPage] = useState(1);
 
@@ -33,30 +40,40 @@ const Main: FC = () => {
 
   return (
     <main>
-      {isLoading && (
-        <Container>
-          <CircularProgress size={200} variant="indeterminate" thickness={3} />
-        </Container>
-      )}
+      <Box
+        maxWidth={isMobile ? "sm" : "lg"}
+        minWidth={isMobile ? "300px" : "600px"}
+        mt="6px"
+      >
+        {isLoading && (
+          <Container>
+            <CircularProgress
+              size={200}
+              variant="indeterminate"
+              thickness={3}
+            />
+          </Container>
+        )}
 
-      {isError && (
-        <Container>
-          <p>Loading error. Reload page</p>
-        </Container>
-      )}
+        {isError && (
+          <Container>
+            <p>Loading error. Reload page</p>
+          </Container>
+        )}
 
-      {!isLoading && !isError && (
-        <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
-      )}
+        {!isLoading && !isError && (
+          <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
+        )}
 
-      <Container maxWidth={isMobile ? "sm" : "lg"}>
-        <Pagination
-          count={paginationPagesQuantity}
-          size="small"
-          page={page}
-          onChange={handlePageChange}
-        />
-      </Container>
+        <Box display="flex" justifyContent="center" mt="6px">
+          <Pagination
+            count={paginationPagesQuantity}
+            size="small"
+            page={page}
+            onChange={handlePageChange}
+          />
+        </Box>
+      </Box>
     </main>
   );
 };

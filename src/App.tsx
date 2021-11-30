@@ -12,6 +12,7 @@ const App: FC = () => {
       flexDirection="column"
       justifyContent="center"
       alignItems="stretch"
+      px="24px"
     >
       <Header />
 

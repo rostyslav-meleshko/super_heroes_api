@@ -1,12 +1,10 @@
 import React, { FC } from "react";
-import { Box, Input, useMediaQuery } from "@material-ui/core";
+import { Box, Input } from "@material-ui/core";
 
 const Header: FC = () => {
-  const isMobile = useMediaQuery("(max-width: 640px)");
-
   return (
     <header>
-      <Box maxWidth={isMobile ? "sm" : "lg"} px="24px" pb="6px">
+      <Box>
         <Input placeholder="Enter hero name" fullWidth={true} color="primary" />
       </Box>
     </header>
