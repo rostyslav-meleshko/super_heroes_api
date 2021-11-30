@@ -4,6 +4,7 @@ import {
   Container,
   useMediaQuery,
   Box,
+  Typography,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
@@ -46,33 +47,42 @@ const Main: FC = () => {
         mt="6px"
       >
         {isLoading && (
-          <Container>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            mt="100px"
+          >
             <CircularProgress
               size={200}
               variant="indeterminate"
               thickness={3}
             />
-          </Container>
+          </Box>
         )}
 
         {isError && (
           <Container>
-            <p>Loading error. Reload page</p>
+            <Typography variant="h4" align="center" color="error">
+              Loading error. Reload page
+            </Typography>
           </Container>
         )}
 
         {!isLoading && !isError && (
-          <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
-        )}
+          <>
+            <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
 
-        <Box display="flex" justifyContent="center" mt="6px">
-          <Pagination
-            count={paginationPagesQuantity}
-            size="small"
-            page={page}
-            onChange={handlePageChange}
-          />
-        </Box>
+            <Box display="flex" justifyContent="center" mt="6px">
+              <Pagination
+                count={paginationPagesQuantity}
+                size="small"
+                page={page}
+                onChange={handlePageChange}
+              />
+            </Box>
+          </>
+        )}
       </Box>
     </main>
   );
