@@ -1,21 +1,18 @@
 import React, { FC, useMemo, useState } from "react";
-import { Container } from "@material-ui/core";
+import { CircularProgress, Container, useMediaQuery } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
 import HeroesList from "./HeroesList";
-import { heroData } from "../../types";
+import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
 
-type MainProps = {
-  isMobile: boolean;
-  allHeroes: heroData[] | [];
-};
-
-const Main: FC<MainProps> = ({ isMobile, allHeroes }) => {
+const Main: FC = () => {
+  const isMobile = useMediaQuery("(max-width: 640px)");
+  const { isLoading, data: heroes, isError } = useAllHeroesRequest();
   const [page, setPage] = useState(1);
 
   const heroesPerPage = isMobile ? 12 : 24;
 
-  const paginationPagesQuantity = Math.ceil(allHeroes.length / heroesPerPage);
+  const paginationPagesQuantity = Math.ceil(heroes.length / heroesPerPage);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -29,13 +26,26 @@ const Main: FC<MainProps> = ({ isMobile, allHeroes }) => {
     const endIndex =
       page > paginationPagesQuantity ? page : heroesPerPage * page;
 
-    return [...allHeroes].slice(startIndex, endIndex);
-  }, [page, allHeroes, paginationPagesQuantity, heroesPerPage]);
+    return [...heroes].slice(startIndex, endIndex);
+  }, [page, heroes, paginationPagesQuantity, heroesPerPage]);
 
-  console.log("isMobile", isMobile);
   return (
     <main>
-      <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
+      {isLoading && (
+        <Container>
+          <CircularProgress size={200} variant="indeterminate" thickness={3} />
+        </Container>
+      )}
+
+      {isError && (
+        <Container>
+          <p>Loading error. Reload page</p>
+        </Container>
+      )}
+
+      {!isLoading && !isError && (
+        <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
+      )}
 
       <Container maxWidth={isMobile ? "sm" : "lg"}>
         <Pagination

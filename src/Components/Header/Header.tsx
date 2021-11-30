@@ -1,15 +1,12 @@
 import React, { FC } from "react";
-import { Container, Input } from "@material-ui/core";
+import { Container, Input, useMediaQuery } from "@material-ui/core";
 
-type PropsHeader = {
-  isMobile: boolean;
-};
+const Header: FC = () => {
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
-const Header: FC<PropsHeader> = ({ isMobile }) => {
   return (
     <header>
       <Container maxWidth={isMobile ? "sm" : "lg"}>
-        SuperHeroes
         <Input placeholder="Enter hero name" fullWidth={true} color="primary" />
         {isMobile && <p> mobile </p>}
       </Container>
