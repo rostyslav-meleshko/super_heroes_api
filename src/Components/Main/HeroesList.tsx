@@ -1,6 +1,6 @@
 import { heroData } from "../../types";
 import React, { FC } from "react";
-import { Container, ImageList, ImageListItem } from "@material-ui/core";
+import { Box, ImageList, ImageListItem } from "@material-ui/core";
 
 type PropsHeroesList = {
   isMobile: boolean;
@@ -9,23 +9,22 @@ type PropsHeroesList = {
 
 const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
   return (
-    <Container maxWidth={isMobile ? "sm" : "lg"}>
-      {isMobile && <p> mobile </p>}
+    <Box maxWidth={isMobile ? "sm" : "lg"} px="24px">
       {showedHeroes.length > 0 && (
-        <ImageList cols={isMobile ? 3 : 6} gap={2} rowHeight={180}>
+        <ImageList cols={isMobile ? 3 : 6} gap={2} rowHeight={170}>
           {showedHeroes.map((hero) => (
             <ImageListItem key={hero.id}>
               <img
                 className="hero_card"
                 src={`${hero.images.md}`}
                 alt={`${hero.name} avatar`}
-                width="120"
+                width="115"
               />
             </ImageListItem>
           ))}
         </ImageList>
       )}
-    </Container>
+    </Box>
   );
 };
 
