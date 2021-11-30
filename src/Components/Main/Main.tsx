@@ -38,7 +38,6 @@ const Main: FC<MainProps> = ({ isMobile, allHeroes }) => {
       <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
 
       <Container maxWidth={isMobile ? "sm" : "lg"}>
-        SuperHeroes Pagination
         <Pagination
           count={paginationPagesQuantity}
           size="small"

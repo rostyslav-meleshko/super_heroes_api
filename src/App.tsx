@@ -8,7 +8,7 @@ import {
 
 import Header from "./Components/Header/Header";
 import Main from "./Components/Main/Main";
-import { useAllHeroesRequest } from "./services/hooks";
+import { useAllHeroesRequest } from "./services/hooks/useAllHeroesRequest";
 import "./App.css";
 
 const App: FC = () => {
