@@ -4,7 +4,7 @@ import { Container, ImageList, ImageListItem } from "@material-ui/core";
 
 type PropsHeroesList = {
   isMobile: boolean;
-  showedHeroes: heroData[] | [];
+  showedHeroes: heroData[];
 };
 
 const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {

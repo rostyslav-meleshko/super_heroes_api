@@ -4,6 +4,7 @@ import Pagination from "@material-ui/lab/Pagination";
 
 import HeroesList from "./HeroesList";
 import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
+import { definePaginatedHeroes } from "./utils/functions";
 
 const Main: FC = () => {
   const isMobile = useMediaQuery("(max-width: 640px)");
@@ -22,12 +23,13 @@ const Main: FC = () => {
   };
 
   const paginatedHeroes = useMemo(() => {
-    const startIndex = (page - 1) * heroesPerPage;
-    const endIndex =
-      page > paginationPagesQuantity ? page : heroesPerPage * page;
-
-    return [...heroes].slice(startIndex, endIndex);
-  }, [page, heroes, paginationPagesQuantity, heroesPerPage]);
+    return definePaginatedHeroes(
+      heroes,
+      page,
+      heroesPerPage,
+      paginationPagesQuantity
+    );
+  }, [page, heroes, heroesPerPage, paginationPagesQuantity]);
 
   return (
     <main>
