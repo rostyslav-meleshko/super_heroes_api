@@ -12,8 +12,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import HeroesList from "./HeroesList";
 import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
 import { definePaginatedHeroes } from "./utils";
-import { useHistory, useLocation } from "react-router-dom";
-import { serialize } from "v8";
+import { useLocation } from "react-router-dom";
 
 const Main: FC = () => {
   const theme = useTheme();
@@ -21,12 +20,9 @@ const Main: FC = () => {
   const { isLoading, data: heroes, isError } = useAllHeroesRequest();
   const [page, setPage] = useState(1);
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+  const { search } = useLocation();
 
   const heroesPerPage = isMobile ? 12 : 24;
-
-  const paginationPagesQuantity = Math.ceil(heroes.length / heroesPerPage);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -36,9 +32,15 @@ const Main: FC = () => {
   };
 
   const heroesFilteredByName = useMemo(() => {
+    const searchParams = new URLSearchParams(search);
+
     const query = searchParams.get("heroName")?.toLocaleLowerCase() || "";
     return heroes.filter((hero) => hero.name.toLowerCase()?.includes(query));
-  }, [searchParams, heroes]);
+  }, [heroes, search]);
+
+  const paginationPagesQuantity = Math.ceil(
+    heroesFilteredByName.length / heroesPerPage
+  );
 
   const paginatedHeroes = useMemo(() => {
     return definePaginatedHeroes(
@@ -49,7 +51,6 @@ const Main: FC = () => {
     );
   }, [page, heroesPerPage, paginationPagesQuantity, heroesFilteredByName]);
 
-  console.log("theme", theme);
   return (
     <main>
       <Box

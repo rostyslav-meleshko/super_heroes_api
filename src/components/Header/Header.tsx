@@ -1,21 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React, { FC } from "react";
 import { Box, Input } from "@material-ui/core";
-
-import { handleHeroNameInSearchParams } from "./utils";
-
-const HERO_NAME = "heroName";
+import { useHeroSearch } from "../../hooks/useHeroSearch";
 
 const Header: FC = () => {
-  const history = useHistory();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const [searchInput, setSearchInput] = useState("");
-
-  useEffect(() => {
-    handleHeroNameInSearchParams(searchParams, HERO_NAME, searchInput.trim());
-    history.push(`?${searchParams.toString()}`);
-  }, [searchInput]);
+  const [searchValue, setSearchValue] = useHeroSearch(""); // from custom hook
 
   return (
     <header>
@@ -24,8 +12,8 @@ const Header: FC = () => {
           placeholder="Enter hero name"
           fullWidth={true}
           color="primary"
-          value={searchInput}
-          onChange={(event) => setSearchInput(event.target.value)}
+          value={searchValue}
+          onChange={(event) => setSearchValue(event.target.value)}
         />
       </Box>
     </header>
