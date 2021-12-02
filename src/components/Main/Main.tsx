@@ -32,8 +32,13 @@ const Main: FC = () => {
   const heroesSearchedByName = useMemo(() => {
     const searchParams = new URLSearchParams(search);
 
-    const query = searchParams.get("heroName")?.toLocaleLowerCase() || "";
-    return heroes.filter((hero) => hero.name.toLowerCase()?.includes(query));
+    const query = searchParams.get("heroName")?.toLowerCase() || "";
+
+    if (query.length >= 3) {
+      return heroes.filter((hero) => hero.name.toLowerCase()?.includes(query));
+    } else {
+      return heroes;
+    }
   }, [heroes, search]);
 
   const paginationPagesQuantity =

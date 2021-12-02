@@ -21,6 +21,7 @@ export const useHeroSearch: TypeUseHeroSearch = (value = "") => {
       searchParams.delete(urlSearchOptions.HeroName);
     }
     history.push(`?${searchParams.toString()}`);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, history]);
 
