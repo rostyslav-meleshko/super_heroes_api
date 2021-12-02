@@ -3,7 +3,7 @@ import { Box, Input } from "@material-ui/core";
 import { useHeroSearch } from "../../hooks/useHeroSearch";
 
 const Header: FC = () => {
-  const [searchValue, setSearchValue] = useHeroSearch(""); // from custom hook
+  const [searchValue, setSearchValue] = useHeroSearch("");
 
   return (
     <header>

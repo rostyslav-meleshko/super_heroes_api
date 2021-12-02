@@ -1,30 +1,21 @@
 import { FC } from "react";
-import { Box } from "@material-ui/core";
-import { Switch, Route } from "react-router-dom";
-import { withRouter } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import Header from "./components/Header/Header";
-import Main from "./components/Main/Main";
+import HomePage from "./pages/HomePage/HomePage";
+import HeroPage from "./pages/HeroPage/HeroPage";
 
 const App: FC = () => {
   return (
     <Switch>
-      <Route path="/">
-        <Box
-          component="div"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="stretch"
-          px="24px"
-        >
-          <Header />
-
-          <Main />
-        </Box>
+      <Route path="/home" exact>
+        <HomePage />
       </Route>
+      <Route path="/hero" exact>
+        <HeroPage />
+      </Route>
+      <Redirect to="/home" />
     </Switch>
   );
 };
 
-export default withRouter(App);
+export default App;

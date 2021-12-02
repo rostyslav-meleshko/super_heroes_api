@@ -19,9 +19,7 @@ const Main: FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { isLoading, data: heroes, isError } = useAllHeroesRequest();
   const [page, setPage] = useState(1);
-
   const { search } = useLocation();
-
   const heroesPerPage = isMobile ? 12 : 24;
 
   const handlePageChange = (
@@ -31,25 +29,24 @@ const Main: FC = () => {
     setPage(value);
   };
 
-  const heroesFilteredByName = useMemo(() => {
+  const heroesSearchedByName = useMemo(() => {
     const searchParams = new URLSearchParams(search);
 
     const query = searchParams.get("heroName")?.toLocaleLowerCase() || "";
     return heroes.filter((hero) => hero.name.toLowerCase()?.includes(query));
   }, [heroes, search]);
 
-  const paginationPagesQuantity = Math.ceil(
-    heroesFilteredByName.length / heroesPerPage
-  );
+  const paginationPagesQuantity =
+    Math.ceil(heroesSearchedByName.length / heroesPerPage) || 1;
 
   const paginatedHeroes = useMemo(() => {
     return definePaginatedHeroes(
-      heroesFilteredByName,
+      heroesSearchedByName,
       page,
       heroesPerPage,
       paginationPagesQuantity
     );
-  }, [page, heroesPerPage, paginationPagesQuantity, heroesFilteredByName]);
+  }, [page, heroesPerPage, paginationPagesQuantity, heroesSearchedByName]);
 
   return (
     <main>
