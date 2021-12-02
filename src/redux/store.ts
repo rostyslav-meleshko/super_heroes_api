@@ -1,52 +1,66 @@
 import { createStore, AnyAction, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import { Dispatch } from "redux";
 
-import { heroData } from "../types";
+type favoriteID = {
+  [key: number]: boolean;
+};
 
 type RootState = {
-  favoriteHeroes: heroData[];
+  ids: favoriteID;
+  showFavoritesHeroesOnly: boolean;
 };
 
 // Initial state
 const initialState: RootState = {
-  favoriteHeroes: [],
+  ids: {},
+  showFavoritesHeroesOnly: false,
 };
 
 // Action types - is just a constant. MUST have a unique value.
-const ADD_FAVORITE_HERO = "ADD_FAVORITE_HERO";
-const DELETE_FAVORITE_HERO = "DELETE_FAVORITE_HERO";
+const ADD_FAVORITE_HERO_ID = "ADD_FAVORITE_HERO_ID";
+const DELETE_FAVORITE_HERO_ID = "DELETE_FAVORITE_HERO_ID";
+const TOGGLE_SHOW_FAVORITES_ONLY = "TOGGLE_SHOW_FAVORITES_ONLY";
 
 // Action creators - a function returning an action object
-export const addFavouriteHero = (favoriteHero: heroData) => ({
-  type: ADD_FAVORITE_HERO,
-  favouriteHero: favoriteHero,
+export const addFavoriteHeroID = (id: number) => ({
+  type: ADD_FAVORITE_HERO_ID,
+  id: id,
 });
 
-export const deleteFavouriteHero = (id: number) => ({
-  type: DELETE_FAVORITE_HERO,
-  id,
+export const deleteFavoriteHeroID = (id: number) => ({
+  type: DELETE_FAVORITE_HERO_ID,
+  id: id,
+});
+
+export const toggleShowFavoritesOnly = () => ({
+  type: TOGGLE_SHOW_FAVORITES_ONLY,
 });
 
 // Selectors - a function receiving Redux state and returning some data from it
-export const stateFavouriteHeroes = (state: RootState) => state.favoriteHeroes;
+export const stateFavoriteHeroesIDs = (state: RootState) => state.ids;
+export const stateShowFavoritesOnly = (state: RootState) =>
+  state.showFavoritesHeroesOnly;
 
 // rootReducer - this function is called after dispatching an action
 const rootReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
-    case ADD_FAVORITE_HERO:
+    case ADD_FAVORITE_HERO_ID:
       return {
         ...state,
-        favouriteHeroes: [...state.favoriteHeroes, action.favouriteHero],
+        ids: { ...state.ids, [action.id]: true },
       };
 
-    case DELETE_FAVORITE_HERO:
+    case DELETE_FAVORITE_HERO_ID:
       return {
         ...state,
-        favouriteHeroes: [...state.favoriteHeroes].filter(
-          (hero) => hero.id !== action.id
-        ),
+        ids: { ...state.ids, [action.id]: false },
+      };
+
+    case TOGGLE_SHOW_FAVORITES_ONLY:
+      return {
+        ...state,
+        showFavoritesHeroesOnly: !state.showFavoritesHeroesOnly,
       };
 
     default:

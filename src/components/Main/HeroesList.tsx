@@ -1,5 +1,6 @@
 import { heroData } from "../../types";
 import React, { FC } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   ImageList,
@@ -9,6 +10,11 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
+import {
+  stateFavoriteHeroesIDs,
+  addFavoriteHeroID,
+  deleteFavoriteHeroID,
+} from "../../redux/store";
 
 type PropsHeroesList = {
   isMobile: boolean;
@@ -22,8 +28,19 @@ const StyledImageListItem = withStyles({
 })(ImageListItem);
 
 const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
+  const dispatch = useDispatch();
+  const favoriteHeroes = useSelector(stateFavoriteHeroesIDs);
   // const classes = useStyles();
 
+  const addHeroToFavorites = (id: number) => {
+    dispatch(addFavoriteHeroID(id));
+  };
+
+  const deleteHeroFromFavorites = (id: number) => {
+    dispatch(deleteFavoriteHeroID(id));
+  };
+
+  console.log("favoriteHeroes", favoriteHeroes);
   return (
     <Box>
       {showedHeroes.length > 0 && (
@@ -44,10 +61,20 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                     aria-label={`heart ${hero.name}`}
                     // className={classes.icon}
                   >
-                    {hero.name !== "Batman" ? (
-                      <FavoriteBorder color="error" />
+                    {favoriteHeroes[hero.id] ? (
+                      <Favorite
+                        color="error"
+                        onClick={() => {
+                          deleteHeroFromFavorites(hero.id);
+                        }}
+                      />
                     ) : (
-                      <Favorite color="error" />
+                      <FavoriteBorder
+                        color="error"
+                        onClick={() => {
+                          addHeroToFavorites(hero.id);
+                        }}
+                      />
                     )}
                   </IconButton>
                 }

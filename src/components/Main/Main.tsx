@@ -1,4 +1,5 @@
 import React, { FC, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   CircularProgress,
   Container,
@@ -13,9 +14,15 @@ import HeroesList from "./HeroesList";
 import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
 import { definePaginatedHeroes } from "./utils";
 import { useLocation } from "react-router-dom";
+import {
+  stateShowFavoritesOnly,
+  stateFavoriteHeroesIDs,
+} from "../../redux/store";
 
 const Main: FC = () => {
   const theme = useTheme();
+  const isOnlyFavoriteHeroesShowed = useSelector(stateShowFavoritesOnly);
+  const favoriteHeroesIds = useSelector(stateFavoriteHeroesIDs);
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { isLoading, data: heroes, isError } = useAllHeroesRequest();
   const [page, setPage] = useState(1);
@@ -41,17 +48,32 @@ const Main: FC = () => {
     }
   }, [heroes, search]);
 
+  const favoriteHeroes = useMemo(() => {
+    return heroes.filter((hero) => favoriteHeroesIds[hero.id]);
+  }, [favoriteHeroesIds, heroes]);
+
   const paginationPagesQuantity =
     Math.ceil(heroesSearchedByName.length / heroesPerPage) || 1;
 
   const paginatedHeroes = useMemo(() => {
+    const heroesForPagination = isOnlyFavoriteHeroesShowed
+      ? favoriteHeroes
+      : heroesSearchedByName;
+
     return definePaginatedHeroes(
-      heroesSearchedByName,
+      heroesForPagination,
       page,
       heroesPerPage,
       paginationPagesQuantity
     );
-  }, [page, heroesPerPage, paginationPagesQuantity, heroesSearchedByName]);
+  }, [
+    page,
+    heroesPerPage,
+    paginationPagesQuantity,
+    heroesSearchedByName,
+    isOnlyFavoriteHeroesShowed,
+    favoriteHeroes,
+  ]);
 
   return (
     <main>
