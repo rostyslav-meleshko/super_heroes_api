@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 
 import HomePage from "./pages/HomePage/HomePage";
 import HeroPage from "./pages/HeroPage/HeroPage";
@@ -10,7 +10,7 @@ const App: FC = () => {
       <Route path="/home" exact>
         <HomePage />
       </Route>
-      <Route path="/hero" exact>
+      <Route path="/hero/:heroName/id/:heroId" exact>
         <HeroPage />
       </Route>
       <Redirect to="/home" />
@@ -18,4 +18,4 @@ const App: FC = () => {
   );
 };
 
-export default App;
+export default withRouter(App);
