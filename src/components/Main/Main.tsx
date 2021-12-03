@@ -15,13 +15,13 @@ import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
 import { definePaginatedHeroes } from "./utils";
 import { useLocation } from "react-router-dom";
 import {
-  stateShowFavoritesOnly,
+  stateIsFavoriteHeroesOnly,
   stateFavoriteHeroesIDs,
 } from "../../redux/store";
 
 const Main: FC = () => {
   const theme = useTheme();
-  const isOnlyFavoriteHeroesShowed = useSelector(stateShowFavoritesOnly);
+  const isOnlyFavoriteHeroesShowed = useSelector(stateIsFavoriteHeroesOnly);
   const favoriteHeroesIds = useSelector(stateFavoriteHeroesIDs);
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { isLoading, data: heroes, isError } = useAllHeroesRequest();
@@ -38,7 +38,6 @@ const Main: FC = () => {
 
   const heroesSearchedByName = useMemo(() => {
     const searchParams = new URLSearchParams(search);
-
     const query = searchParams.get("heroName")?.toLowerCase() || "";
 
     if (query.length >= 3) {
@@ -52,8 +51,13 @@ const Main: FC = () => {
     return heroes.filter((hero) => favoriteHeroesIds[hero.id]);
   }, [favoriteHeroesIds, heroes]);
 
-  const paginationPagesQuantity =
-    Math.ceil(heroesSearchedByName.length / heroesPerPage) || 1;
+  const paginationPagesQuantity = useMemo(() => {
+    if (isOnlyFavoriteHeroesShowed) {
+      return Math.ceil(favoriteHeroes.length / heroesPerPage) || 1;
+    } else {
+      return Math.ceil(heroesSearchedByName.length / heroesPerPage) || 1;
+    }
+  }, [favoriteHeroes, heroesSearchedByName, isOnlyFavoriteHeroesShowed]);
 
   const paginatedHeroes = useMemo(() => {
     const heroesForPagination = isOnlyFavoriteHeroesShowed
@@ -74,7 +78,7 @@ const Main: FC = () => {
     isOnlyFavoriteHeroesShowed,
     favoriteHeroes,
   ]);
-
+  console.log("paginated heroes", paginatedHeroes);
   return (
     <main>
       <Box
@@ -105,18 +109,26 @@ const Main: FC = () => {
           </Container>
         )}
 
+        {isOnlyFavoriteHeroesShowed && !paginatedHeroes.length && (
+          <Typography variant="h5" align="center">
+            You don't have favourite heroes yet
+          </Typography>
+        )}
+
         {!isLoading && !isError && (
           <>
             <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
 
-            <Box display="flex" justifyContent="center" mt="6px">
-              <Pagination
-                count={paginationPagesQuantity}
-                size="small"
-                page={page}
-                onChange={handlePageChange}
-              />
-            </Box>
+            {paginatedHeroes.length > 0 && (
+              <Box display="flex" justifyContent="center" mt="6px">
+                <Pagination
+                  count={paginationPagesQuantity}
+                  size="small"
+                  page={page}
+                  onChange={handlePageChange}
+                />
+              </Box>
+            )}
           </>
         )}
       </Box>

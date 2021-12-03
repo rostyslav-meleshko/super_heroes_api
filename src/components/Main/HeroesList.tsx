@@ -14,6 +14,7 @@ import {
   stateFavoriteHeroesIDs,
   addFavoriteHeroID,
   deleteFavoriteHeroID,
+  stateIsFavoriteHeroesOnly,
 } from "../../redux/store";
 
 type PropsHeroesList = {

@@ -8,13 +8,13 @@ type favoriteID = {
 
 type RootState = {
   ids: favoriteID;
-  showFavoritesHeroesOnly: boolean;
+  isFavoriteHeroesOnly: boolean;
 };
 
 // Initial state
 const initialState: RootState = {
   ids: {},
-  showFavoritesHeroesOnly: false,
+  isFavoriteHeroesOnly: false,
 };
 
 // Action types - is just a constant. MUST have a unique value.
@@ -39,8 +39,8 @@ export const toggleShowFavoritesOnly = () => ({
 
 // Selectors - a function receiving Redux state and returning some data from it
 export const stateFavoriteHeroesIDs = (state: RootState) => state.ids;
-export const stateShowFavoritesOnly = (state: RootState) =>
-  state.showFavoritesHeroesOnly;
+export const stateIsFavoriteHeroesOnly = (state: RootState) =>
+  state.isFavoriteHeroesOnly;
 
 // rootReducer - this function is called after dispatching an action
 const rootReducer = (state = initialState, action: AnyAction) => {
@@ -60,7 +60,7 @@ const rootReducer = (state = initialState, action: AnyAction) => {
     case TOGGLE_SHOW_FAVORITES_ONLY:
       return {
         ...state,
-        showFavoritesHeroesOnly: !state.showFavoritesHeroesOnly,
+        isFavoriteHeroesOnly: !state.isFavoriteHeroesOnly,
       };
 
     default:

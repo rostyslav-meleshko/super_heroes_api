@@ -4,13 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { useHeroSearch } from "../../hooks/useHeroSearch";
 import {
-  stateShowFavoritesOnly,
+  stateIsFavoriteHeroesOnly,
   toggleShowFavoritesOnly,
 } from "../../redux/store";
 
 const Header: FC = () => {
   const dispatch = useDispatch();
-  const isFavoriteHeroesShowed = useSelector(stateShowFavoritesOnly);
+  const isFavoriteHeroesShowed = useSelector(stateIsFavoriteHeroesOnly);
   const [searchValue, setSearchValue] = useHeroSearch("");
 
   const toggleHeroes = () => {
@@ -19,7 +19,7 @@ const Header: FC = () => {
 
   return (
     <header>
-      <Box>
+      <Box display="flex" height="50px" minWidth="300px">
         <Input
           placeholder="Enter hero name"
           fullWidth={true}
@@ -27,8 +27,15 @@ const Header: FC = () => {
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
         />
-        <Button variant="contained" color="primary" onClick={toggleHeroes}>
-          {isFavoriteHeroesShowed ? "Show All Heroes" : "Show Favorite Heroes"}
+
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          fullWidth={true}
+          onClick={toggleHeroes}
+        >
+          {isFavoriteHeroesShowed ? "All Heroes" : "Favorite Heroes"}
         </Button>
       </Box>
     </header>
