@@ -1,5 +1,6 @@
 import React, { FC, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import {
   CircularProgress,
   Container,
@@ -10,14 +11,13 @@ import {
 import { useTheme } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
-import HeroesList from "./HeroesList";
-import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
-import { definePaginatedHeroes } from "./utils";
-import { useLocation } from "react-router-dom";
 import {
   stateIsFavoriteHeroesOnly,
   stateFavoriteHeroesIDs,
 } from "../../redux/store";
+import HeroesList from "./HeroesList";
+import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
+import { definePaginatedHeroes } from "./utils";
 
 const Main: FC = () => {
   const theme = useTheme();

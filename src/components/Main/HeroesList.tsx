@@ -1,4 +1,3 @@
-import { HeroData } from "../../types";
 import React, { FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -11,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
+
+import { HeroData } from "../../types";
 import {
   stateFavoriteHeroesIDs,
   addFavoriteHeroID,
