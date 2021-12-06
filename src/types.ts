@@ -54,3 +54,7 @@ export interface heroData {
   slug: string;
   work: Work;
 }
+
+export enum urlSearchOptions {
+  HeroName = "heroName",
+}

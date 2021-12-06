@@ -1,5 +1,6 @@
 import { useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { urlSearchOptions } from "../types";
 
 type TypeUseHeroSearch = (
   value: string
@@ -15,12 +16,13 @@ export const useHeroSearch: TypeUseHeroSearch = (value = "") => {
     const trimmedValue = searchValue.trim();
 
     if (trimmedValue) {
-      searchParams.set("heroName", trimmedValue);
+      searchParams.set(urlSearchOptions.HeroName, trimmedValue);
     } else {
-      searchParams.delete("heroName");
+      searchParams.delete(urlSearchOptions.HeroName);
     }
-
     history.push(`?${searchParams.toString()}`);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, history]);
 
   return [searchValue, setSearchValue];

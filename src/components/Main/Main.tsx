@@ -1,4 +1,5 @@
 import React, { FC, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   CircularProgress,
   Container,
@@ -13,15 +14,19 @@ import HeroesList from "./HeroesList";
 import { useAllHeroesRequest } from "../../hooks/useAllHeroesRequest";
 import { definePaginatedHeroes } from "./utils";
 import { useLocation } from "react-router-dom";
+import {
+  stateIsFavoriteHeroesOnly,
+  stateFavoriteHeroesIDs,
+} from "../../redux/store";
 
 const Main: FC = () => {
   const theme = useTheme();
+  const isOnlyFavoriteHeroesShowed = useSelector(stateIsFavoriteHeroesOnly);
+  const favoriteHeroesIds = useSelector(stateFavoriteHeroesIDs);
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { isLoading, data: heroes, isError } = useAllHeroesRequest();
   const [page, setPage] = useState(1);
-
   const { search } = useLocation();
-
   const heroesPerPage = isMobile ? 12 : 24;
 
   const handlePageChange = (
@@ -31,26 +36,49 @@ const Main: FC = () => {
     setPage(value);
   };
 
-  const heroesFilteredByName = useMemo(() => {
+  const heroesSearchedByName = useMemo(() => {
     const searchParams = new URLSearchParams(search);
+    const query = searchParams.get("heroName")?.toLowerCase() || "";
 
-    const query = searchParams.get("heroName")?.toLocaleLowerCase() || "";
-    return heroes.filter((hero) => hero.name.toLowerCase()?.includes(query));
+    if (query.length >= 3) {
+      return heroes.filter((hero) => hero.name.toLowerCase()?.includes(query));
+    } else {
+      return heroes;
+    }
   }, [heroes, search]);
 
-  const paginationPagesQuantity = Math.ceil(
-    heroesFilteredByName.length / heroesPerPage
-  );
+  const favoriteHeroes = useMemo(() => {
+    return heroes.filter((hero) => favoriteHeroesIds[hero.id]);
+  }, [favoriteHeroesIds, heroes]);
+
+  const paginationPagesQuantity = useMemo(() => {
+    if (isOnlyFavoriteHeroesShowed) {
+      return Math.ceil(favoriteHeroes.length / heroesPerPage) || 1;
+    } else {
+      return Math.ceil(heroesSearchedByName.length / heroesPerPage) || 1;
+    }
+  }, [favoriteHeroes, heroesSearchedByName, isOnlyFavoriteHeroesShowed]);
 
   const paginatedHeroes = useMemo(() => {
+    const heroesForPagination = isOnlyFavoriteHeroesShowed
+      ? favoriteHeroes
+      : heroesSearchedByName;
+
     return definePaginatedHeroes(
-      heroesFilteredByName,
+      heroesForPagination,
       page,
       heroesPerPage,
       paginationPagesQuantity
     );
-  }, [page, heroesPerPage, paginationPagesQuantity, heroesFilteredByName]);
-
+  }, [
+    page,
+    heroesPerPage,
+    paginationPagesQuantity,
+    heroesSearchedByName,
+    isOnlyFavoriteHeroesShowed,
+    favoriteHeroes,
+  ]);
+  console.log("paginated heroes", paginatedHeroes);
   return (
     <main>
       <Box
@@ -81,18 +109,26 @@ const Main: FC = () => {
           </Container>
         )}
 
+        {isOnlyFavoriteHeroesShowed && !paginatedHeroes.length && (
+          <Typography variant="h5" align="center">
+            You don't have favourite heroes yet
+          </Typography>
+        )}
+
         {!isLoading && !isError && (
           <>
             <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
 
-            <Box display="flex" justifyContent="center" mt="6px">
-              <Pagination
-                count={paginationPagesQuantity}
-                size="small"
-                page={page}
-                onChange={handlePageChange}
-              />
-            </Box>
+            {paginatedHeroes.length > 0 && (
+              <Box display="flex" justifyContent="center" mt="6px">
+                <Pagination
+                  count={paginationPagesQuantity}
+                  size="small"
+                  page={page}
+                  onChange={handlePageChange}
+                />
+              </Box>
+            )}
           </>
         )}
       </Box>
