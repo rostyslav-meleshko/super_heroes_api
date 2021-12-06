@@ -1,4 +1,4 @@
-import { heroData } from "../../types";
+import { HeroData } from "../../types";
 import React, { FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -19,7 +19,7 @@ import {
 
 type PropsHeroesList = {
   isMobile: boolean;
-  showedHeroes: heroData[];
+  showedHeroes: HeroData[];
 };
 
 const StyledImageListItem = withStyles({

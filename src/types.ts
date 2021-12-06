@@ -43,7 +43,7 @@ interface Work {
   occupation: string;
 }
 
-export interface heroData {
+export interface HeroData {
   id: number;
   appearance: Appearance;
   biography: Biography;
@@ -55,6 +55,6 @@ export interface heroData {
   work: Work;
 }
 
-export enum urlSearchOptions {
+export enum UrlSearchOptions {
   HeroName = "heroName",
 }

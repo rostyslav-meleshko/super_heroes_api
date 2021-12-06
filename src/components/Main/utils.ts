@@ -1,11 +1,11 @@
-import { heroData } from "../../types";
+import { HeroData } from "../../types";
 
 type TypeDefinePaginatedHeroes = (
-  heroes: heroData[] | [],
+  heroes: HeroData[] | [],
   page: number,
   heroesPerPage: number,
   pagesQuantity: number
-) => heroData[] | [];
+) => HeroData[] | [];
 
 export const definePaginatedHeroes: TypeDefinePaginatedHeroes = (
   heroes,

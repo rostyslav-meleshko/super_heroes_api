@@ -1,6 +1,6 @@
 import { useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { urlSearchOptions } from "../types";
+import { UrlSearchOptions } from "../types";
 
 type TypeUseHeroSearch = (
   value: string
@@ -16,9 +16,9 @@ export const useHeroSearch: TypeUseHeroSearch = (value = "") => {
     const trimmedValue = searchValue.trim();
 
     if (trimmedValue) {
-      searchParams.set(urlSearchOptions.HeroName, trimmedValue);
+      searchParams.set(UrlSearchOptions.HeroName, trimmedValue);
     } else {
-      searchParams.delete(urlSearchOptions.HeroName);
+      searchParams.delete(UrlSearchOptions.HeroName);
     }
     history.push(`?${searchParams.toString()}`);
 

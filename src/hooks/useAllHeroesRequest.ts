@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { heroData } from "../types";
+import { HeroData } from "../types";
 
 export const useAllHeroesRequest = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<heroData[]>([]);
+  const [data, setData] = useState<HeroData[]>([]);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
