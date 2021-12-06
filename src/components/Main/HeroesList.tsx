@@ -12,11 +12,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { Favorite, FavoriteBorder } from "@material-ui/icons";
 
 import { HeroData } from "types";
-import {
-  addFavoriteHeroID,
-  deleteFavoriteHeroID,
-  stateFavoriteHeroesIDs,
-} from "redux/store";
+import { addFavoriteHeroID, deleteFavoriteHeroID } from "store/actions";
+import { stateFavoriteHeroesIDs } from "store/selectors";
 
 type PropsHeroesList = {
   isMobile: boolean;

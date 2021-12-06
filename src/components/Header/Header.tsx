@@ -3,10 +3,8 @@ import { Box, Button, Input } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useHeroSearch } from "hooks/useHeroSearch";
-import {
-  stateIsFavoriteHeroesOnly,
-  toggleShowFavoritesOnly,
-} from "redux/store";
+import { stateIsFavoriteHeroesOnly } from "store/selectors";
+import { toggleShowFavoritesOnly } from "store/actions";
 
 const Header: FC = () => {
   const dispatch = useDispatch();

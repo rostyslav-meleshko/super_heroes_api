@@ -11,7 +11,10 @@ import {
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
-import { stateFavoriteHeroesIDs, stateIsFavoriteHeroesOnly } from "redux/store";
+import {
+  stateFavoriteHeroesIDs,
+  stateIsFavoriteHeroesOnly,
+} from "store/selectors";
 import HeroesList from "./HeroesList";
 import { useAllHeroesRequest } from "hooks/useAllHeroesRequest";
 import { definePaginatedHeroes } from "./utils";

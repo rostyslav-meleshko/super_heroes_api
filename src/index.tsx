@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
 
-import store from "redux/store";
+import store from "store/rootStore";
 import App from "App";
 
 ReactDOM.render(
