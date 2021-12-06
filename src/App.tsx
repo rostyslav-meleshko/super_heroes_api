@@ -10,7 +10,7 @@ const App: FC = () => {
       <Route path="/home" exact>
         <HomePage />
       </Route>
-      <Route path="/hero" exact>
+      <Route path="/hero/:heroName/id/:heroId" exact>
         <HeroPage />
       </Route>
       <Redirect to="/home" />

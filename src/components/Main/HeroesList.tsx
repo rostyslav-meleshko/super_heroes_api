@@ -1,6 +1,7 @@
 import { heroData } from "../../types";
 import React, { FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import {
   Box,
   ImageList,
@@ -14,7 +15,6 @@ import {
   stateFavoriteHeroesIDs,
   addFavoriteHeroID,
   deleteFavoriteHeroID,
-  stateIsFavoriteHeroesOnly,
 } from "../../redux/store";
 
 type PropsHeroesList = {
@@ -55,7 +55,11 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                 width="100"
               />
               <ImageListItemBar
-                // title={hero.name}
+                title={
+                  <NavLink to={`/hero/${hero.name}/id/${hero.id}`}>
+                    {hero.name}
+                  </NavLink>
+                }
                 position="bottom"
                 actionIcon={
                   <IconButton

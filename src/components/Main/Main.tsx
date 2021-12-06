@@ -57,7 +57,12 @@ const Main: FC = () => {
     } else {
       return Math.ceil(heroesSearchedByName.length / heroesPerPage) || 1;
     }
-  }, [favoriteHeroes, heroesSearchedByName, isOnlyFavoriteHeroesShowed]);
+  }, [
+    favoriteHeroes,
+    heroesSearchedByName,
+    isOnlyFavoriteHeroesShowed,
+    heroesPerPage,
+  ]);
 
   const paginatedHeroes = useMemo(() => {
     const heroesForPagination = isOnlyFavoriteHeroesShowed
