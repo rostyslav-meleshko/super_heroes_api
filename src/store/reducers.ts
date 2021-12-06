@@ -1,10 +1,7 @@
-import { AnyAction } from "redux";
-
 import { initialState } from "store/rootStore";
-import { ActionTypes } from "./actions";
+import { ActionTypes, Actions } from "./actions";
 
-// rootReducer - this function is called after dispatching an action
-export const rootReducer = (state = initialState, action: AnyAction) => {
+export const rootReducer = (state = initialState, action: Actions) => {
   switch (action.type) {
     case ActionTypes.ADD_FAVORITE_HERO_ID:
       return {
