@@ -39,7 +39,6 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
     dispatch(deleteFavoriteHeroID(id));
   };
 
-  console.log("favoriteHeroes", favoriteHeroes);
   return (
     <Box>
       {showedHeroes.length > 0 && (

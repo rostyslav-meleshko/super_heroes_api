@@ -83,7 +83,7 @@ const Main: FC = () => {
     isOnlyFavoriteHeroesShowed,
     favoriteHeroes,
   ]);
-  console.log("paginated heroes", paginatedHeroes);
+
   return (
     <main>
       <Box

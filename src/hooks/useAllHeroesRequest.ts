@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { HeroData } from "types";
+import { setAllHeroes } from "store/actions";
 
 export const useAllHeroesRequest = () => {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<HeroData[]>([]);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
+
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -15,10 +21,12 @@ export const useAllHeroesRequest = () => {
         );
         const data = await response?.json();
 
+        dispatch(setAllHeroes(data));
         setData(data);
         setIsLoading(false);
       } catch (error) {
         console.warn(error);
+        // dispatch(setAllHeroes([]));
         setIsError(true);
         setIsLoading(false);
       }

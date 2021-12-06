@@ -1,18 +1,24 @@
 import { initialState } from "store/rootStore";
-import { ActionTypes, Actions } from "./actions";
+import { Actions, ActionTypes } from "./actions";
 
 export const rootReducer = (state = initialState, action: Actions) => {
   switch (action.type) {
+    case ActionTypes.SET_ALL_HEROES:
+      return {
+        ...state,
+        allHeroes: action.allHeroes,
+      };
+
     case ActionTypes.ADD_FAVORITE_HERO_ID:
       return {
         ...state,
-        ids: { ...state.ids, [action.id]: true },
+        favoriteHeroesIds: { ...state.favoriteHeroesIds, [action.id]: true },
       };
 
     case ActionTypes.DELETE_FAVORITE_HERO_ID:
       return {
         ...state,
-        ids: { ...state.ids, [action.id]: false },
+        favoriteHeroesIds: { ...state.favoriteHeroesIds, [action.id]: false },
       };
 
     case ActionTypes.TOGGLE_SHOW_FAVORITES_ONLY:

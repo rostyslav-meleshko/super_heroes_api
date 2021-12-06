@@ -2,6 +2,7 @@ import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
+import { HeroData } from "types";
 import { rootReducer } from "./reducers";
 
 type favoriteID = {
@@ -9,17 +10,19 @@ type favoriteID = {
 };
 
 export type RootState = {
-  ids: favoriteID;
+  allHeroes: HeroData[];
+  favoriteHeroesIds: favoriteID;
   isFavoriteHeroesOnly: boolean;
 };
 
 // Initial state
 export const initialState: RootState = {
-  ids: {},
+  allHeroes: [],
+  favoriteHeroesIds: {},
   isFavoriteHeroesOnly: false,
 };
 
-const store = createStore(
+export const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
