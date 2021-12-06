@@ -1,6 +1,6 @@
 import { useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { UrlSearchOptions } from "../types";
+import { UrlSearchOptions } from "types";
 
 type TypeUseHeroSearch = (
   value: string

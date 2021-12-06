@@ -1,12 +1,12 @@
 import React, { FC } from "react";
-import { Box, Input, Button } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { Box, Button, Input } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useHeroSearch } from "../../hooks/useHeroSearch";
+import { useHeroSearch } from "hooks/useHeroSearch";
 import {
   stateIsFavoriteHeroesOnly,
   toggleShowFavoritesOnly,
-} from "../../redux/store";
+} from "redux/store";
 
 const Header: FC = () => {
   const dispatch = useDispatch();

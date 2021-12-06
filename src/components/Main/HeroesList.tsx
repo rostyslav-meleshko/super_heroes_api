@@ -1,22 +1,22 @@
 import React, { FC } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import {
   Box,
+  IconButton,
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  IconButton,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { FavoriteBorder, Favorite } from "@material-ui/icons";
+import { Favorite, FavoriteBorder } from "@material-ui/icons";
 
-import { HeroData } from "../../types";
+import { HeroData } from "types";
 import {
-  stateFavoriteHeroesIDs,
   addFavoriteHeroID,
   deleteFavoriteHeroID,
-} from "../../redux/store";
+  stateFavoriteHeroesIDs,
+} from "redux/store";
 
 type PropsHeroesList = {
   isMobile: boolean;

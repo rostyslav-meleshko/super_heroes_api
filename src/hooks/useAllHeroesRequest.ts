@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { HeroData } from "../types";
+import { useEffect, useState } from "react";
+import { HeroData } from "types";
 
 export const useAllHeroesRequest = () => {
   const [isLoading, setIsLoading] = useState(false);

@@ -1,4 +1,4 @@
-import { HeroData } from "../../types";
+import { HeroData } from "types";
 
 type TypeDefinePaginatedHeroes = (
   heroes: HeroData[] | [],
