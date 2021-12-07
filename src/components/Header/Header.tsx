@@ -12,7 +12,7 @@ const Header: FC = () => {
   const isFavoriteHeroesShowed = searchParams.get(UrlSearchOptions.IsFavorite);
   const [searchValue, setSearchValue] = useHeroSearch("");
 
-  const toggleIsFavouriteInUrl = () => {
+  const toggleIsFavouriteInUrl = (): void => {
     if (searchParams.get(UrlSearchOptions.IsFavorite)) {
       searchParams.delete(UrlSearchOptions.IsFavorite);
     } else {
@@ -30,7 +30,7 @@ const Header: FC = () => {
           fullWidth={true}
           color="primary"
           value={searchValue}
-          onChange={(event) => setSearchValue(event.target.value)}
+          onChange={(event): void => setSearchValue(event.target.value)}
         />
 
         <Button

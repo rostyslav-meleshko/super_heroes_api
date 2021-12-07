@@ -28,11 +28,11 @@ const StyledImageListItem = withStyles({
 const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
   const dispatch = useDispatch();
 
-  const setCurrentHeroAsFavorite = (hero: HeroData) => {
+  const setCurrentHeroAsFavorite = (hero: HeroData): void => {
     dispatch(setHeroAsFavorite(hero));
   };
 
-  const unsetCurrentHeroAsFavorite = (hero: HeroData) => {
+  const unsetCurrentHeroAsFavorite = (hero: HeroData): void => {
     dispatch(unsetHeroAsFavorite(hero));
   };
 
@@ -63,14 +63,14 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                     {hero.isFavorite ? (
                       <Favorite
                         color="error"
-                        onClick={() => {
+                        onClick={(): void => {
                           unsetCurrentHeroAsFavorite(hero);
                         }}
                       />
                     ) : (
                       <FavoriteBorder
                         color="error"
-                        onClick={() => {
+                        onClick={(): void => {
                           setCurrentHeroAsFavorite(hero);
                         }}
                       />

@@ -4,7 +4,13 @@ import { useDispatch } from "react-redux";
 import { HeroData } from "types";
 import { setAllHeroes } from "store/actions";
 
-export const useAllHeroesRequest = () => {
+type UseAllHeroesRequest = () => {
+  isLoading: boolean;
+  data: HeroData[];
+  isError: boolean;
+};
+
+export const useAllHeroesRequest: UseAllHeroesRequest = () => {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +20,7 @@ export const useAllHeroesRequest = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         const response = await fetch(
           "https://akabab.github.io/superhero-api/api/all.json"

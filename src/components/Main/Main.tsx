@@ -43,7 +43,7 @@ const Main: FC = () => {
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number
-  ) => {
+  ): void => {
     setPage(value);
   };
 
