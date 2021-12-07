@@ -12,14 +12,12 @@ type favoriteID = {
 export type RootState = {
   allHeroes: HeroData[];
   favoriteHeroesIds: favoriteID;
-  isFavoriteHeroesOnly: boolean;
 };
 
 // Initial state
 export const initialState: RootState = {
   allHeroes: [],
   favoriteHeroesIds: {},
-  isFavoriteHeroesOnly: false,
 };
 
 export const store = createStore(

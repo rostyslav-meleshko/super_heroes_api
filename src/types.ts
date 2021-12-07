@@ -53,8 +53,10 @@ export interface HeroData {
   powerstats: Powerstats;
   slug: string;
   work: Work;
+  isFavorite?: boolean;
 }
 
 export enum UrlSearchOptions {
   HeroName = "heroName",
+  IsFavorite = "isFavorites",
 }

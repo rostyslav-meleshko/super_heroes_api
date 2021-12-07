@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import {
@@ -11,22 +11,33 @@ import {
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
-import {
-  stateFavoriteHeroesIDs,
-  stateIsFavoriteHeroesOnly,
-} from "store/selectors";
+import { stateFavoriteHeroesIDs } from "store/selectors";
 import HeroesList from "./HeroesList";
 import { useAllHeroesRequest } from "hooks/useAllHeroesRequest";
 import { definePaginatedHeroes } from "./utils";
+import { UrlSearchOptions } from "types";
 
 const Main: FC = () => {
   const theme = useTheme();
-  const isOnlyFavoriteHeroesShowed = useSelector(stateIsFavoriteHeroesOnly);
+  const [isOnlyFavorite, setIsOnlyFavorite] = useState(false);
   const favoriteHeroesIds = useSelector(stateFavoriteHeroesIDs);
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { isLoading, data: heroes, isError } = useAllHeroesRequest();
   const [page, setPage] = useState(1);
   const { search } = useLocation();
+
+  const searchParams = useMemo(() => {
+    return new URLSearchParams(search);
+  }, [search]);
+
+  useEffect(() => {
+    if (searchParams.get(UrlSearchOptions.IsFavorite)) {
+      setIsOnlyFavorite(true);
+    } else {
+      setIsOnlyFavorite(false);
+    }
+  }, [search, searchParams]);
+
   const heroesPerPage = isMobile ? 12 : 24;
 
   const handlePageChange = (
@@ -37,7 +48,6 @@ const Main: FC = () => {
   };
 
   const heroesSearchedByName = useMemo(() => {
-    const searchParams = new URLSearchParams(search);
     const query = searchParams.get("heroName")?.toLowerCase() || "";
 
     if (query.length >= 3) {
@@ -45,27 +55,22 @@ const Main: FC = () => {
     } else {
       return heroes;
     }
-  }, [heroes, search]);
+  }, [heroes, searchParams]);
 
   const favoriteHeroes = useMemo(() => {
     return heroes.filter((hero) => favoriteHeroesIds[hero.id]);
   }, [favoriteHeroesIds, heroes]);
 
   const paginationPagesQuantity = useMemo(() => {
-    if (isOnlyFavoriteHeroesShowed) {
+    if (isOnlyFavorite) {
       return Math.ceil(favoriteHeroes.length / heroesPerPage) || 1;
     } else {
       return Math.ceil(heroesSearchedByName.length / heroesPerPage) || 1;
     }
-  }, [
-    favoriteHeroes,
-    heroesSearchedByName,
-    isOnlyFavoriteHeroesShowed,
-    heroesPerPage,
-  ]);
+  }, [favoriteHeroes, heroesSearchedByName, heroesPerPage, isOnlyFavorite]);
 
   const paginatedHeroes = useMemo(() => {
-    const heroesForPagination = isOnlyFavoriteHeroesShowed
+    const heroesForPagination = isOnlyFavorite
       ? favoriteHeroes
       : heroesSearchedByName;
 
@@ -80,7 +85,7 @@ const Main: FC = () => {
     heroesPerPage,
     paginationPagesQuantity,
     heroesSearchedByName,
-    isOnlyFavoriteHeroesShowed,
+    isOnlyFavorite,
     favoriteHeroes,
   ]);
 
@@ -114,7 +119,7 @@ const Main: FC = () => {
           </Container>
         )}
 
-        {isOnlyFavoriteHeroesShowed && !paginatedHeroes.length && (
+        {isOnlyFavorite && !paginatedHeroes.length && (
           <Typography variant="h5" align="center">
             You don't have favourite heroes yet
           </Typography>

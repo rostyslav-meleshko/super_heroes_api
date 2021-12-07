@@ -21,12 +21,6 @@ export const rootReducer = (state = initialState, action: Actions) => {
         favoriteHeroesIds: { ...state.favoriteHeroesIds, [action.id]: false },
       };
 
-    case ActionTypes.TOGGLE_SHOW_FAVORITES_ONLY:
-      return {
-        ...state,
-        isFavoriteHeroesOnly: !state.isFavoriteHeroesOnly,
-      };
-
     default:
       return state;
   }

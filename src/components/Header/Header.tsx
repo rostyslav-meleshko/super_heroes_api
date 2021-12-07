@@ -1,18 +1,25 @@
 import React, { FC } from "react";
 import { Box, Button, Input } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { useHeroSearch } from "hooks/useHeroSearch";
-import { stateIsFavoriteHeroesOnly } from "store/selectors";
-import { toggleShowFavoritesOnly } from "store/actions";
+import { UrlSearchOptions } from "types";
 
 const Header: FC = () => {
-  const dispatch = useDispatch();
-  const isFavoriteHeroesShowed = useSelector(stateIsFavoriteHeroesOnly);
+  const history = useHistory();
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const isFavoriteHeroesShowed = searchParams.get(UrlSearchOptions.IsFavorite);
   const [searchValue, setSearchValue] = useHeroSearch("");
 
-  const toggleHeroes = () => {
-    dispatch(toggleShowFavoritesOnly());
+  const toggleIsFavouriteInUrl = () => {
+    if (searchParams.get(UrlSearchOptions.IsFavorite)) {
+      searchParams.delete(UrlSearchOptions.IsFavorite);
+    } else {
+      searchParams.set(UrlSearchOptions.IsFavorite, "true");
+    }
+
+    history.push(`?${searchParams.toString()}`);
   };
 
   return (
@@ -31,7 +38,7 @@ const Header: FC = () => {
           color={isFavoriteHeroesShowed ? "primary" : "secondary"}
           size="small"
           fullWidth={true}
-          onClick={toggleHeroes}
+          onClick={toggleIsFavouriteInUrl}
         >
           {isFavoriteHeroesShowed ? "All Heroes" : "Favorite Heroes"}
         </Button>
