@@ -26,14 +26,13 @@ export const useAllHeroesRequest = () => {
         setIsLoading(false);
       } catch (error) {
         console.warn(error);
-        // dispatch(setAllHeroes([]));
         setIsError(true);
         setIsLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   return { isLoading, data, isError };
 };

@@ -5,19 +5,15 @@ import thunk from "redux-thunk";
 import { HeroData } from "types";
 import { rootReducer } from "./reducers";
 
-type favoriteID = {
-  [key: number]: boolean;
-};
-
 export type RootState = {
   allHeroes: HeroData[];
-  favoriteHeroesIds: favoriteID;
+  favoriteHeroes: HeroData[];
 };
 
 // Initial state
 export const initialState: RootState = {
   allHeroes: [],
-  favoriteHeroesIds: {},
+  favoriteHeroes: [],
 };
 
 export const store = createStore(

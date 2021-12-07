@@ -5,13 +5,13 @@ import { useSelector } from "react-redux";
 import { stateAllHeroes } from "store/selectors";
 
 const HeroPage: FC = () => {
-  // const location = useLocation();
+  const location = useLocation();
   const { heroName, heroId } =
     useParams<{ heroName: string; heroId: string }>();
   const allHeroes = useSelector(stateAllHeroes);
   const currentHero = allHeroes.find((hero) => hero.id === +heroId);
 
-  console.log(currentHero, heroName);
+  console.log(currentHero, heroName, location);
 
   useEffect(() => {}, []);
   return (

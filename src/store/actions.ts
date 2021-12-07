@@ -2,8 +2,8 @@ import { HeroData } from "types";
 
 export enum ActionTypes {
   SET_ALL_HEROES = "SET_ALL_HEROES",
-  ADD_FAVORITE_HERO_ID = "ADD_FAVORITE_HERO_ID",
-  DELETE_FAVORITE_HERO_ID = "DELETE_FAVORITE_HERO_ID",
+  SET_HERO_AS_FAVORITE = "SET_HERO_AS_FAVORITE",
+  UNSET_HERO_AS_FAVORITE = "UNSET_HERO_AS_FAVORITE",
 }
 
 type SetAllHeroes = {
@@ -11,17 +11,17 @@ type SetAllHeroes = {
   allHeroes: HeroData[];
 };
 
-type AddFavoriteHeroId = {
-  type: ActionTypes.ADD_FAVORITE_HERO_ID;
-  id: number;
+export type SetHeroAsFavorite = {
+  type: ActionTypes.SET_HERO_AS_FAVORITE;
+  hero: HeroData;
 };
 
-type DeleteFavoriteHeroId = {
-  type: ActionTypes.DELETE_FAVORITE_HERO_ID;
-  id: number;
+export type UnsetHeroAsFavorite = {
+  type: ActionTypes.UNSET_HERO_AS_FAVORITE;
+  hero: HeroData;
 };
 
-export type Actions = SetAllHeroes | AddFavoriteHeroId | DeleteFavoriteHeroId;
+export type Actions = SetAllHeroes | SetHeroAsFavorite | UnsetHeroAsFavorite;
 
 // Action creators - a function returning an action object
 export const setAllHeroes = (allHeroes: HeroData[]): SetAllHeroes => ({
@@ -29,12 +29,12 @@ export const setAllHeroes = (allHeroes: HeroData[]): SetAllHeroes => ({
   allHeroes: allHeroes,
 });
 
-export const addFavoriteHeroID = (id: number): AddFavoriteHeroId => ({
-  type: ActionTypes.ADD_FAVORITE_HERO_ID,
-  id: id,
+export const setHeroAsFavorite = (hero: HeroData): SetHeroAsFavorite => ({
+  type: ActionTypes.SET_HERO_AS_FAVORITE,
+  hero: hero,
 });
 
-export const deleteFavoriteHeroID = (id: number): DeleteFavoriteHeroId => ({
-  type: ActionTypes.DELETE_FAVORITE_HERO_ID,
-  id: id,
+export const unsetHeroAsFavorite = (hero: HeroData): UnsetHeroAsFavorite => ({
+  type: ActionTypes.UNSET_HERO_AS_FAVORITE,
+  hero: hero,
 });

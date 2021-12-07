@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import {
   Box,
@@ -12,8 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Favorite, FavoriteBorder } from "@material-ui/icons";
 
 import { HeroData } from "types";
-import { addFavoriteHeroID, deleteFavoriteHeroID } from "store/actions";
-import { stateFavoriteHeroesIDs } from "store/selectors";
+import { setHeroAsFavorite, unsetHeroAsFavorite } from "store/actions";
 
 type PropsHeroesList = {
   isMobile: boolean;
@@ -28,15 +27,13 @@ const StyledImageListItem = withStyles({
 
 const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
   const dispatch = useDispatch();
-  const favoriteHeroes = useSelector(stateFavoriteHeroesIDs);
-  // const classes = useStyles();
 
-  const addHeroToFavorites = (id: number) => {
-    dispatch(addFavoriteHeroID(id));
+  const setCurrentHeroAsFavorite = (hero: HeroData) => {
+    dispatch(setHeroAsFavorite(hero));
   };
 
-  const deleteHeroFromFavorites = (id: number) => {
-    dispatch(deleteFavoriteHeroID(id));
+  const unsetCurrentHeroAsFavorite = (hero: HeroData) => {
+    dispatch(unsetHeroAsFavorite(hero));
   };
 
   return (
@@ -63,18 +60,18 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                     aria-label={`heart ${hero.name}`}
                     // className={classes.icon}
                   >
-                    {favoriteHeroes[hero.id] ? (
+                    {hero.isFavorite ? (
                       <Favorite
                         color="error"
                         onClick={() => {
-                          deleteHeroFromFavorites(hero.id);
+                          unsetCurrentHeroAsFavorite(hero);
                         }}
                       />
                     ) : (
                       <FavoriteBorder
                         color="error"
                         onClick={() => {
-                          addHeroToFavorites(hero.id);
+                          setCurrentHeroAsFavorite(hero);
                         }}
                       />
                     )}

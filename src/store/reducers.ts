@@ -1,5 +1,6 @@
 import { initialState } from "store/rootStore";
 import { Actions, ActionTypes } from "./actions";
+import { toggleFavoriteHero } from "store/utils";
 
 export const rootReducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -9,17 +10,11 @@ export const rootReducer = (state = initialState, action: Actions) => {
         allHeroes: action.allHeroes,
       };
 
-    case ActionTypes.ADD_FAVORITE_HERO_ID:
-      return {
-        ...state,
-        favoriteHeroesIds: { ...state.favoriteHeroesIds, [action.id]: true },
-      };
+    case ActionTypes.SET_HERO_AS_FAVORITE:
+      return toggleFavoriteHero(state, action.hero, "ADD");
 
-    case ActionTypes.DELETE_FAVORITE_HERO_ID:
-      return {
-        ...state,
-        favoriteHeroesIds: { ...state.favoriteHeroesIds, [action.id]: false },
-      };
+    case ActionTypes.UNSET_HERO_AS_FAVORITE:
+      return toggleFavoriteHero(state, action.hero, "DELETE");
 
     default:
       return state;
