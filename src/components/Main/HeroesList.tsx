@@ -12,7 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Favorite, FavoriteBorder } from "@material-ui/icons";
 
 import { HeroData } from "types";
-import { setHeroAsFavorite, unsetHeroAsFavorite } from "store/actions";
+import { toggleHeroAsFavorite } from "store/actions";
 
 type PropsHeroesList = {
   isMobile: boolean;
@@ -28,12 +28,8 @@ const StyledImageListItem = withStyles({
 const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
   const dispatch = useDispatch();
 
-  const setCurrentHeroAsFavorite = (hero: HeroData): void => {
-    dispatch(setHeroAsFavorite(hero));
-  };
-
-  const unsetCurrentHeroAsFavorite = (hero: HeroData): void => {
-    dispatch(unsetHeroAsFavorite(hero));
+  const toggleCurrentHeroAsFavorite = (hero: HeroData): void => {
+    dispatch(toggleHeroAsFavorite(hero));
   };
 
   return (
@@ -64,14 +60,14 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                       <Favorite
                         color="error"
                         onClick={(): void => {
-                          unsetCurrentHeroAsFavorite(hero);
+                          toggleCurrentHeroAsFavorite(hero);
                         }}
                       />
                     ) : (
                       <FavoriteBorder
                         color="error"
                         onClick={(): void => {
-                          setCurrentHeroAsFavorite(hero);
+                          toggleCurrentHeroAsFavorite(hero);
                         }}
                       />
                     )}

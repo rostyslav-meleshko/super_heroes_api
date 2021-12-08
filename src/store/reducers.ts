@@ -13,11 +13,8 @@ export const rootReducer = (
         allHeroes: action.allHeroes,
       };
 
-    case ActionTypes.SET_HERO_AS_FAVORITE:
-      return toggleFavoriteHero(state, action.hero, "ADD");
-
-    case ActionTypes.UNSET_HERO_AS_FAVORITE:
-      return toggleFavoriteHero(state, action.hero, "DELETE");
+    case ActionTypes.TOGGLE_HERO_AS_FAVORITE:
+      return toggleFavoriteHero(state, action.hero);
 
     default:
       return state;
