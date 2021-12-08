@@ -1,4 +1,12 @@
-interface Appearance {
+interface ISimpleParams {
+  [key: string]: string | number;
+}
+
+interface IArrayParams {
+  [key: string]: string | string[];
+}
+
+interface Appearance extends IArrayParams {
   eyeColor: string;
   gender: string;
   hairColor: string;
@@ -7,7 +15,7 @@ interface Appearance {
   weight: string[];
 }
 
-interface Biography {
+interface Biography extends IArrayParams {
   aliases: string[];
   alignment: string;
   alterEgos: string;
@@ -17,7 +25,7 @@ interface Biography {
   publisher: string;
 }
 
-interface Connections {
+interface Connections extends ISimpleParams {
   groupAffiliation: string;
   relatives: string;
 }
@@ -29,7 +37,7 @@ interface Images {
   xs: string;
 }
 
-interface Powerstats {
+interface Powerstats extends ISimpleParams {
   combat: number;
   durability: number;
   intelligence: number;
@@ -38,7 +46,7 @@ interface Powerstats {
   strength: number;
 }
 
-interface Work {
+interface Work extends ISimpleParams {
   base: string;
   occupation: string;
 }
