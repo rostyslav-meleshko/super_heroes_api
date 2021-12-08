@@ -60,3 +60,13 @@ export enum UrlSearchOptions {
   HeroName = "heroName",
   IsFavorite = "isFavorites",
 }
+
+export enum ServerFetchUrls {
+  AllHeroes = "https://akabab.github.io/superhero-api/api/all.json",
+  HeroDataById = "https://akabab.github.io/superhero-api/api/id/",
+}
+
+// export enum RequiredDataFromServer {
+//   AllHeroes = "AllHeroes",
+//   SingleHero = "SingleHero",
+// }

@@ -1,1 +1,1 @@
-test auto crlf
+server API = "https://akabab.github.io/superhero-api/api/";
