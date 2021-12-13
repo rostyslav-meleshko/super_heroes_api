@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { HeroData } from "types";
+import { HeroData, ServerFetchUrls } from "types";
 import { setAllHeroes } from "store/actions";
 
-type UseAllHeroesRequest = () => {
-  isLoading: boolean;
-  data: HeroData[];
-  isError: boolean;
-};
+type ResponseData<T> = T extends ServerFetchUrls.AllHeroes
+  ? HeroData[]
+  : HeroData;
 
-export const useAllHeroesRequest: UseAllHeroesRequest = () => {
+interface UseServersResponse<T extends ServerFetchUrls> {
+  isLoading: boolean;
+  data: ResponseData<T> | null;
+  isError: boolean;
+}
+
+export const useServersRequest = <T extends ServerFetchUrls>(
+  url: string
+): UseServersResponse<T> => {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<HeroData[]>([]);
+  const [data, setData] = useState<ResponseData<T> | null>(null);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -22,12 +28,13 @@ export const useAllHeroesRequest: UseAllHeroesRequest = () => {
 
     const fetchData = async (): Promise<void> => {
       try {
-        const response = await fetch(
-          "https://akabab.github.io/superhero-api/api/all.json"
-        );
+        const response = await fetch(url);
         const data = await response?.json();
 
-        dispatch(setAllHeroes(data));
+        if (url === ServerFetchUrls.AllHeroes) {
+          dispatch(setAllHeroes(data));
+        }
+
         setData(data);
         setIsLoading(false);
       } catch (error) {
@@ -38,7 +45,7 @@ export const useAllHeroesRequest: UseAllHeroesRequest = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, url]);
 
   return { isLoading, data, isError };
 };

@@ -13,16 +13,25 @@ import Pagination from "@material-ui/lab/Pagination";
 
 import { stateFavoriteHeroes } from "store/selectors";
 import HeroesList from "./HeroesList";
-import { useAllHeroesRequest } from "hooks/useAllHeroesRequest";
+import { useServersRequest } from "hooks/useServersRequest";
 import { definePaginatedHeroes } from "./utils";
-import { UrlSearchOptions } from "types";
+import {
+  UrlSearchOptions,
+  ServerFetchUrls,
+  // RequiredDataFromServer,
+} from "types";
 
 const Main: FC = () => {
   const theme = useTheme();
   const [isOnlyFavorite, setIsOnlyFavorite] = useState(false);
   const favoriteHeroes = useSelector(stateFavoriteHeroes);
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const { isLoading, data: heroes, isError } = useAllHeroesRequest();
+  const {
+    isLoading,
+    data: heroes,
+    isError,
+  } = useServersRequest<ServerFetchUrls.AllHeroes>(ServerFetchUrls.AllHeroes);
+
   const [page, setPage] = useState(1);
   const { search } = useLocation();
 
@@ -50,10 +59,16 @@ const Main: FC = () => {
   const heroesSearchedByName = useMemo(() => {
     const query = searchParams.get("heroName")?.toLowerCase() || "";
 
-    if (query.length >= 3) {
-      return heroes.filter((hero) => hero.name.toLowerCase()?.includes(query));
+    if (heroes) {
+      if (query.length >= 3) {
+        return heroes.filter((hero) =>
+          hero.name.toLowerCase()?.includes(query)
+        );
+      } else {
+        return heroes;
+      }
     } else {
-      return heroes;
+      return [];
     }
   }, [heroes, searchParams]);
 
