@@ -55,21 +55,14 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                   <IconButton
                     aria-label={`heart ${hero.name}`}
                     // className={classes.icon}
+                    onClick={(): void => {
+                      toggleCurrentHeroAsFavorite(hero);
+                    }}
                   >
                     {hero.isFavorite ? (
-                      <Favorite
-                        color="error"
-                        onClick={(): void => {
-                          toggleCurrentHeroAsFavorite(hero);
-                        }}
-                      />
+                      <Favorite color="error" />
                     ) : (
-                      <FavoriteBorder
-                        color="error"
-                        onClick={(): void => {
-                          toggleCurrentHeroAsFavorite(hero);
-                        }}
-                      />
+                      <FavoriteBorder color="error" />
                     )}
                   </IconButton>
                 }
