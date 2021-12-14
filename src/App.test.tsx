@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store from "store/rootStore";
 import { CssBaseline } from "@material-ui/core";
 
-test("renders All Heroes Button component", () => {
+test("renders button `Favourite Heroes` in App component", () => {
   render(
     <Provider store={store}>
       <CssBaseline>

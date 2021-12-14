@@ -39,6 +39,7 @@ const Header: FC = () => {
           size="small"
           fullWidth={true}
           onClick={toggleIsFavouriteInUrl}
+          name="toggle-favorite-heroes"
           data-testid="header-button-heroes"
         >
           {isFavoriteHeroesShowed ? "All Heroes" : "Favorite Heroes"}

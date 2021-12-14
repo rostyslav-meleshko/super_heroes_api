@@ -14,7 +14,11 @@ test("button text changes from `Favorite Heroes` to `All Heroes`", () => {
     </Router>
   );
 
-  userEvent.click(screen.getByTestId("header-button-heroes"));
+  // here is the question !!!
+  // userEvent.click(screen.getByTestId("header-button-heroes"));
+
+  // getByRole('button', {name: /submit/i})
+  userEvent.click(screen.getByRole("button", { name: /favorite heroes/i }));
 
   expect(screen.getByTestId("header-button-heroes").textContent).toEqual(
     "All Heroes"
