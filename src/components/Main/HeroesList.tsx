@@ -63,12 +63,12 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                     {hero.isFavorite ? (
                       <Favorite
                         color="error"
-                        data-testid={`icon-favorite ${hero.id}`}
+                        data-testid={`icon-favorite-${hero.id}`}
                       />
                     ) : (
                       <FavoriteBorder
                         color="error"
-                        data-testid={`icon-not-favorite ${hero.id}`}
+                        data-testid={`icon-not-favorite-${hero.id}`}
                       />
                     )}
                   </IconButton>
