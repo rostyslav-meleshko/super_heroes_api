@@ -14,6 +14,10 @@ const heroUrl = `${ServerFetchUrls.HeroDataById}${heroId}.json`;
 let hookResult: RenderResult<UseServersResponse<ServerFetchUrls>>;
 
 describe("useServerRequest", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   describe("when calling AllHeroes correct URL", () => {
     beforeEach(() => {
       const wrapper = (
@@ -27,10 +31,6 @@ describe("useServerRequest", () => {
 
       hookResult = result;
     }); // how to shift up all this logic with renderHook??? how to take result from it?
-
-    afterEach(() => {
-      cleanup();
-    });
 
     it("should set isLoading = true, when start fetching data", () => {
       expect(hookResult.current.isLoading).toEqual(true); // how ty typing hookResult with TS????
@@ -77,10 +77,6 @@ describe("useServerRequest", () => {
       hookResult = result;
     }); // how to shift up all this logic with renderHook??? how to take result from it?
 
-    afterEach(() => {
-      cleanup();
-    });
-
     it("should set isError = true, when error occurred during fetching data", async () => {
       await waitFor(() => {
         expect(hookResult.current.isError).toEqual(true);
@@ -106,10 +102,6 @@ describe("useServerRequest", () => {
 
       hookResult = result;
     }); // how to shift up all this logic with renderHook??? how to take result from it?
-
-    afterEach(() => {
-      cleanup();
-    });
 
     it("should return single hero, when fetching API for singleHero", async () => {
       await waitFor(() => {
