@@ -72,6 +72,7 @@ export enum UrlSearchOptions {
 export enum ServerFetchUrls {
   AllHeroes = "https://akabab.github.io/superhero-api/api/all.json",
   HeroDataById = "https://akabab.github.io/superhero-api/api/id/",
+  WrongUrl = "https://akabab.github.io/superhero-api/api/0.json",
 }
 
 // export enum RequiredDataFromServer {
