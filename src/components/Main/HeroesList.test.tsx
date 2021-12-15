@@ -158,35 +158,13 @@ describe("HeroesList", () => {
     );
   });
 
-  it("should show empty heart icon at not favourite hero, which isFavorite:false", async () => {
+  it("should show empty heart icon at not favourite hero, when isFavorite:false", () => {
     expect(
-      await screen.findByTestId(`icon-not-favorite-${hero1.id}`)
+      screen.getByTestId(`icon-not-favorite-${hero1.id}`)
     ).toBeInTheDocument();
   });
 
-  it("should show filled heart icon at favourite hero, which isFavorite:true", async () => {
-    expect(
-      await screen.findByTestId(`icon-favorite-${hero3.id}`)
-    ).toBeInTheDocument();
+  it("should show filled heart icon at favourite hero, when isFavorite:true", () => {
+    expect(screen.getByTestId(`icon-favorite-${hero3.id}`)).toBeInTheDocument();
   });
 });
-
-// test("changes icon of not favorite hero to favorite when clicking on it", async () => {
-//   render(
-//     <HashRouter>
-//       <HeroesList {...heroesListProps} />
-//     </HashRouter>
-//   );
-//
-//
-//
-//   const heroHeartButton = await screen.findByLabelText(ariaLabel);
-//
-//   expect(heroHeartButton).toBeInTheDocument();
-//
-//   expect(await screen.findByTestId("icon-not-favorite-1")).toBeInTheDocument();
-//
-//   userEvent.click(heroHeartButton);
-//
-//   expect(await screen.findByTestId("icon-favorite-1")).toBeInTheDocument();
-// });
