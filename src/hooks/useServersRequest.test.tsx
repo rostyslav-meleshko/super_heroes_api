@@ -14,16 +14,16 @@ const heroUrl = `${ServerFetchUrls.HeroDataById}${heroId}.json`;
 let hookResult: RenderResult<UseServersResponse<ServerFetchUrls>>;
 
 describe("useServerRequest", () => {
+  const wrapper = (
+    { children } // how to typing this children with TS???
+  ) => <Provider store={store}>{children}</Provider>;
+
   afterEach(() => {
     cleanup();
   });
 
   describe("when calling AllHeroes correct URL", () => {
     beforeEach(() => {
-      const wrapper = (
-        { children } // how to typing this children with TS???
-      ) => <Provider store={store}>{children}</Provider>;
-
       const { result } = renderHook(
         () => useServersRequest(ServerFetchUrls.AllHeroes),
         { wrapper }
@@ -65,10 +65,6 @@ describe("useServerRequest", () => {
 
   describe("when calling wrong url", () => {
     beforeEach(() => {
-      const wrapper = (
-        { children } // how to typing this children with TS???
-      ) => <Provider store={store}>{children}</Provider>;
-
       const { result } = renderHook(
         () => useServersRequest(ServerFetchUrls.WrongUrl),
         { wrapper }
@@ -92,10 +88,6 @@ describe("useServerRequest", () => {
 
   describe("when calling api wor single hero data by id", () => {
     beforeEach(() => {
-      const wrapper = (
-        { children } // how to typing this children with TS???
-      ) => <Provider store={store}>{children}</Provider>;
-
       const { result } = renderHook(() => useServersRequest(heroUrl), {
         wrapper,
       });
