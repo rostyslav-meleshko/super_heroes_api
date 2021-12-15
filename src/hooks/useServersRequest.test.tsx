@@ -1,23 +1,29 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { RenderResult } from "@testing-library/react-hooks";
 import { waitFor } from "@testing-library/react";
-import { renderHook, act, cleanup } from "@testing-library/react-hooks";
+import { renderHook, cleanup } from "@testing-library/react-hooks";
 import { Provider } from "react-redux";
 
 import { useServersRequest, UseServersResponse } from "hooks/useServersRequest";
 import { ServerFetchUrls } from "types";
 import store from "store/rootStore";
 
-const numberOfHeroesTotal = 563;
+const numberOfHeroesTotal = 563; // is it OK to pass the test with length of the response array from the server?
 const heroId = 1;
 const heroUrl = `${ServerFetchUrls.HeroDataById}${heroId}.json`;
 let hookResult: RenderResult<UseServersResponse<ServerFetchUrls>>;
 
-describe("useServerRequest", () => {
-  const wrapper = (
-    { children } // how to typing this children with TS???
-  ) => <Provider store={store}>{children}</Provider>;
+interface Children {
+  children: JSX.Element;
+}
 
+type Wrapper = ({}: Children) => ReactElement;
+
+const wrapper: Wrapper = ({ children }) => (
+  <Provider store={store}>{children}</Provider>
+);
+
+describe("useServerRequest", () => {
   afterEach(() => {
     cleanup();
   });
