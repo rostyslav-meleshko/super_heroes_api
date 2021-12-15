@@ -17,7 +17,7 @@ export interface UseServersResponse<T extends ServerFetchUrls> {
 export const useServersRequest = <T extends ServerFetchUrls>(
   url: string
 ): UseServersResponse<T> => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<ResponseData<T> | null>(null);
@@ -31,9 +31,9 @@ export const useServersRequest = <T extends ServerFetchUrls>(
         const response = await fetch(url);
         const data = await response?.json();
 
-        // if (url === ServerFetchUrls.AllHeroes) {
-        //   dispatch(setAllHeroes(data));
-        // }
+        if (url === ServerFetchUrls.AllHeroes) {
+          dispatch(setAllHeroes(data));
+        }
 
         setData(data);
         setIsLoading(false);
@@ -45,10 +45,7 @@ export const useServersRequest = <T extends ServerFetchUrls>(
     };
 
     fetchData();
-  }, [
-    // dispatch,
-    url,
-  ]);
+  }, [dispatch, url]);
 
   return { isLoading, data, isError };
 };

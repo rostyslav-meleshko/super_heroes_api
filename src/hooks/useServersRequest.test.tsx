@@ -1,102 +1,120 @@
-import { screen, render, waitFor } from "@testing-library/react";
+import React from "react";
+import { RenderResult } from "@testing-library/react-hooks";
+import { waitFor } from "@testing-library/react";
 import { renderHook, act, cleanup } from "@testing-library/react-hooks";
 import { Provider } from "react-redux";
 
-import { useServersRequest } from "hooks/useServersRequest";
+import { useServersRequest, UseServersResponse } from "hooks/useServersRequest";
 import { ServerFetchUrls } from "types";
-import Main from "components/Main/Main";
 import store from "store/rootStore";
-// ServerFetchUrls.AllHeroes
 
 const numberOfHeroesTotal = 563;
 const heroId = 1;
-const heroName = "A-Bomb";
 const heroUrl = `${ServerFetchUrls.HeroDataById}${heroId}.json`;
+let hookResult: RenderResult<UseServersResponse<ServerFetchUrls>>;
 
 describe("useServerRequest", () => {
-  beforeEach(() => {});
+  describe("when calling AllHeroes correct URL", () => {
+    beforeEach(() => {
+      const wrapper = (
+        { children } // how to typing this children with TS???
+      ) => <Provider store={store}>{children}</Provider>;
 
-  afterEach(() => {
-    cleanup();
-  });
+      const { result } = renderHook(
+        () => useServersRequest(ServerFetchUrls.AllHeroes),
+        { wrapper }
+      );
 
-  it("should set isLoading = true, when start fetching data", () => {
-    const { result } = renderHook(() =>
-      useServersRequest(ServerFetchUrls.AllHeroes)
-    );
+      hookResult = result;
+    }); // how to shift up all this logic with renderHook??? how to take result from it?
 
-    expect(result.current.isLoading).toEqual(true);
-  });
+    afterEach(() => {
+      cleanup();
+    });
 
-  it("should set isLoading = false, when finished fetching data", async () => {
-    const { result } = renderHook(() =>
-      useServersRequest(ServerFetchUrls.AllHeroes)
-    );
+    it("should set isLoading = true, when start fetching data", () => {
+      expect(hookResult.current.isLoading).toEqual(true); // how ty typing hookResult with TS????
+    });
 
-    await waitFor(() => {
-      expect(result.current.isLoading).toEqual(false);
+    it("should set isLoading = false, when finished fetching data", async () => {
+      await waitFor(() => {
+        expect(hookResult.current.isLoading).toEqual(false);
+      });
+    });
+
+    it("should set isError = false, when fetching data successfully", async () => {
+      await waitFor(() => {
+        expect(hookResult.current.isError).toEqual(false);
+      });
+    });
+
+    it("should return array of heroes, when fetching API for allHeroes", async () => {
+      await waitFor(() => {
+        expect(hookResult.current.data).toHaveLength(numberOfHeroesTotal);
+      });
+    });
+
+    it("should return successful data when calling allHeroes url", async () => {
+      await waitFor(() => {
+        expect(hookResult.current.isError).toEqual(false);
+        expect(hookResult.current.data).toHaveLength(numberOfHeroesTotal);
+        expect(hookResult.current.isLoading).toEqual(false);
+      });
     });
   });
 
-  it("should set isError = false, when fetching data successfully", async () => {
-    const { result } = renderHook(() =>
-      useServersRequest(ServerFetchUrls.AllHeroes)
-    );
+  describe("when calling wrong url", () => {
+    beforeEach(() => {
+      const wrapper = (
+        { children } // how to typing this children with TS???
+      ) => <Provider store={store}>{children}</Provider>;
 
-    await waitFor(() => {
-      expect(result.current.isError).toEqual(false);
+      const { result } = renderHook(
+        () => useServersRequest(ServerFetchUrls.WrongUrl),
+        { wrapper }
+      );
+
+      hookResult = result;
+    }); // how to shift up all this logic with renderHook??? how to take result from it?
+
+    afterEach(() => {
+      cleanup();
+    });
+
+    it("should set isError = true, when error occurred during fetching data", async () => {
+      await waitFor(() => {
+        expect(hookResult.current.isError).toEqual(true);
+      });
+    });
+
+    it("should return null in data, when fetching API with error", async () => {
+      await waitFor(() => {
+        expect(hookResult.current.data).toEqual(null);
+      });
     });
   });
 
-  it("should set isError = true, when error occurred during fetching data", async () => {
-    const { result } = renderHook(() =>
-      useServersRequest(ServerFetchUrls.WrongUrl)
-    );
+  describe("when calling api wor single hero data by id", () => {
+    beforeEach(() => {
+      const wrapper = (
+        { children } // how to typing this children with TS???
+      ) => <Provider store={store}>{children}</Provider>;
 
-    await waitFor(() => {
-      expect(result.current.isError).toEqual(true);
+      const { result } = renderHook(() => useServersRequest(heroUrl), {
+        wrapper,
+      });
+
+      hookResult = result;
+    }); // how to shift up all this logic with renderHook??? how to take result from it?
+
+    afterEach(() => {
+      cleanup();
     });
-  });
 
-  it("should return array of heroes, when fetching API for allHeroes", async () => {
-    const { result } = renderHook(() =>
-      useServersRequest(ServerFetchUrls.AllHeroes)
-    );
-
-    await waitFor(() => {
-      expect(result.current.data).toHaveLength(numberOfHeroesTotal);
-    });
-  });
-
-  it("should return single hero, when fetching API for singleHero", async () => {
-    const { result } = renderHook(() => useServersRequest(heroUrl));
-
-    await waitFor(() => {
-      expect(result.current.data).toHaveProperty("name");
-    });
-  });
-
-  it("should return null in data, when fetching API with error", async () => {
-    const { result } = renderHook(() =>
-      useServersRequest(ServerFetchUrls.WrongUrl)
-    );
-
-    await waitFor(() => {
-      expect(result.current.data).toEqual(null);
-    });
-  });
-
-  it("should return successful data when calling allHeroes url", async () => {
-    const { result } = renderHook(() =>
-      useServersRequest(ServerFetchUrls.AllHeroes)
-    );
-
-    // worked correctly, when dispatch in original hook commented
-
-    await waitFor(() => {
-      expect(result.current.isError).toEqual(false);
-      expect(result.current.data).toHaveLength(numberOfHeroesTotal);
-      expect(result.current.isLoading).toEqual(false);
+    it("should return single hero, when fetching API for singleHero", async () => {
+      await waitFor(() => {
+        expect(hookResult.current.data).toHaveProperty("name"); // is it OK to check result by this property???
+      });
     });
   });
 });
