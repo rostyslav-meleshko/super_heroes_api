@@ -29,8 +29,9 @@ describe("useServerRequest", () => {
         { wrapper }
       );
 
+      // how to avoid this manoeuvre with hookResult? how to use 'result' in each 'it' test case without 'hookResult'?
       hookResult = result;
-    }); // how to shift up all this logic with renderHook??? how to take result from it?
+    });
 
     it("should set isLoading = true, when start fetching data", () => {
       expect(hookResult.current.isLoading).toEqual(true); // how ty typing hookResult with TS????
@@ -71,7 +72,7 @@ describe("useServerRequest", () => {
       );
 
       hookResult = result;
-    }); // how to shift up all this logic with renderHook??? how to take result from it?
+    });
 
     it("should set isError = true, when error occurred during fetching data", async () => {
       await waitFor(() => {
@@ -93,11 +94,12 @@ describe("useServerRequest", () => {
       });
 
       hookResult = result;
-    }); // how to shift up all this logic with renderHook??? how to take result from it?
+    });
 
     it("should return single hero, when fetching API for singleHero", async () => {
       await waitFor(() => {
-        expect(hookResult.current.data).toHaveProperty("name"); // is it OK to check result by this property???
+        // is it OK to check result in this way, by using 'toHaveProperty' with 'name' property???
+        expect(hookResult.current.data).toHaveProperty("name");
       });
     });
   });
