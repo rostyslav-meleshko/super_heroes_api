@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { RenderResult } from "@testing-library/react-hooks";
+// import {} from "jest";
 import { waitFor } from "@testing-library/react";
 import { renderHook, cleanup } from "@testing-library/react-hooks";
 import { Provider } from "react-redux";
@@ -23,6 +24,8 @@ const wrapper: Wrapper = ({ children }) => (
   <Provider store={store}>{children}</Provider>
 );
 
+// mock asyncron call and mock store;
+
 describe("useServerRequest", () => {
   afterEach(() => {
     cleanup();
@@ -40,7 +43,7 @@ describe("useServerRequest", () => {
     });
 
     it("should set isLoading = true, when start fetching data", () => {
-      expect(hookResult.current.isLoading).toEqual(true); // how ty typing hookResult with TS????
+      expect(hookResult.current.isLoading).toEqual(true);
     });
 
     it("should set isLoading = false, when finished fetching data", async () => {
@@ -57,7 +60,7 @@ describe("useServerRequest", () => {
 
     it("should return array of heroes, when fetching API for allHeroes", async () => {
       await waitFor(() => {
-        expect(hookResult.current.data).toHaveLength(numberOfHeroesTotal);
+        expect(hookResult.current.data).toHaveLength(numberOfHeroesTotal); // ???
       });
     });
 
@@ -107,6 +110,30 @@ describe("useServerRequest", () => {
         // is it OK to check result in this way, by using 'toHaveProperty' with 'name' property???
         expect(hookResult.current.data).toHaveProperty("name");
       });
+    });
+  });
+});
+
+const heroArraysTest = [
+  { id: 1, name: "a" },
+  { id: 2, name: "b" },
+  { id: 3, name: "c" },
+];
+
+describe("when calling correct api, but server response error 404", () => {
+  it("should return an error = true", async () => {
+    const fetchSpy = jest.spyOn(window, "fetch");
+    fetchSpy.mockResolvedValueOnce({
+      ok: false,
+      status: 404,
+    });
+    const { result } = renderHook(
+      () => useServersRequest(ServerFetchUrls.AllHeroes),
+      { wrapper }
+    );
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(result.current.isError).toEqual(true);
     });
   });
 });

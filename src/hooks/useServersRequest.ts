@@ -27,13 +27,24 @@ export const useServersRequest = <T extends ServerFetchUrls>(
     setIsLoading(true);
 
     const fetchData = async (): Promise<void> => {
+      // mock fetch, spy.on, test server 503, 404, etc...
+      // status 200, isFailed = true;
       try {
         const response = await fetch(url);
+
+        if (response?.status > 299) {
+          console.log("response", response, "response.body", response.body);
+
+          throw "Response status > 299";
+        }
+
         const data = await response?.json();
 
         if (url === ServerFetchUrls.AllHeroes) {
           dispatch(setAllHeroes(data));
         }
+
+        // console.log("data", data, "data.body", data.body);
 
         setData(data);
         setIsLoading(false);

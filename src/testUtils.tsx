@@ -1,5 +1,5 @@
 // // its just as sample with what to work;
-// export const sampleText = "sampleText";
+export const sampleText = "sampleText";
 //
 // import React from "react";
 // import { Action, createStore, DeepPartial, Store, StoreEnhancer } from "redux";
