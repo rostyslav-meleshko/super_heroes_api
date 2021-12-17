@@ -126,7 +126,7 @@ describe("when calling correct api, but server response error 404", () => {
     fetchSpy.mockResolvedValueOnce({
       ok: false,
       status: 404,
-    });
+    } as Response);
     const { result } = renderHook(
       () => useServersRequest(ServerFetchUrls.AllHeroes),
       { wrapper }
