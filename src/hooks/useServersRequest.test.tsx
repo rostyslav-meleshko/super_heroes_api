@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import { RenderResult } from "@testing-library/react-hooks";
-// import {} from "jest";
 import { waitFor } from "@testing-library/react";
 import { renderHook, cleanup } from "@testing-library/react-hooks";
 import { Provider } from "react-redux";
@@ -8,6 +7,7 @@ import { Provider } from "react-redux";
 import { useServersRequest, UseServersResponse } from "hooks/useServersRequest";
 import { ServerFetchUrls } from "types";
 import store from "store/rootStore";
+import { createTestStore } from "__mock__/testUtils";
 
 const numberOfHeroesTotal = 563; // is it OK to pass the test with length of the response array from the server?
 const heroId = 1;
@@ -19,6 +19,8 @@ interface Children {
 }
 
 type Wrapper = ({}: Children) => ReactElement;
+
+const testStore = createTestStore();
 
 const wrapper: Wrapper = ({ children }) => (
   <Provider store={store}>{children}</Provider>
