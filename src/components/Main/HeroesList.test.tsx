@@ -33,8 +33,6 @@ const heroesListProps = {
 //   };
 // };
 
-const ariaLabel = "heart A-Bomb";
-
 describe("HeroesList test", () => {
   let store: Store;
   beforeEach(() => {
