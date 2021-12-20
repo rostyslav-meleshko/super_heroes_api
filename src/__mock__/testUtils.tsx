@@ -1,8 +1,8 @@
 import { RootState } from "store/rootStore";
 import { render, RenderResult } from "@testing-library/react";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { HashRouter } from "react-router-dom";
 import React from "react";
 
 export const renderWithRedux = (
@@ -18,4 +18,13 @@ export const renderWithRedux = (
       <HashRouter>{component}</HashRouter>
     </Provider>
   );
+};
+
+export const renderWithRouter = (
+  component: React.ReactElement,
+  { route = "/" }
+): RenderResult => {
+  window.history.pushState({}, "Test hero page", route);
+
+  return render(component, { wrapper: BrowserRouter });
 };

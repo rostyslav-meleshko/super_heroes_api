@@ -35,7 +35,7 @@ export const useServersRequest = <T extends ServerFetchUrls>(
         if (response?.status > 299) {
           console.log("response", response, "response.body", response.body);
 
-          throw "Response status > 299";
+          throw new Error("Response status > 299");
         }
 
         const data = await response?.json();
