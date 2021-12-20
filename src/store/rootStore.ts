@@ -16,7 +16,7 @@ export const initialState: RootState = {
   favoriteHeroes: [],
 };
 
-export const store = createStore(
+const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );

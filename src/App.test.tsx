@@ -3,11 +3,8 @@ import { render, screen } from "@testing-library/react";
 import App from "./App";
 import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "store/rootStore"; // mock store => customRender => withMockedStore=> with provider  with real store
+import store from "store/rootStore";
 import { CssBaseline } from "@material-ui/core";
-
-// mockedStore = {}, drill to provider
-// render
 
 test("renders button `Favourite Heroes` in App component", () => {
   render(

@@ -4,8 +4,10 @@ import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import React from "react";
 
+import { renderWithRedux } from "__mock__/testUtils";
 import store from "store/rootStore";
 import Main from "components/Main/Main";
+import { heroesArray, hero1, hero3 } from "__mock__/heroes";
 
 const ariaLabel = "heart A-Bomb";
 
