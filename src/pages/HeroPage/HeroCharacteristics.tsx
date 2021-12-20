@@ -49,6 +49,7 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
               <img
                 src={isColumn ? `${hero.images.md}` : `${hero.images.lg}`}
                 alt={hero?.name}
+                title={hero?.name}
               />
             </Box>
             <Box display="flex" justifyContent="space-around" flexWrap="wrap">
@@ -111,7 +112,7 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
               </Card>
 
               <Card>
-                <CardHeader title="Connections"></CardHeader>
+                <CardHeader title="Work"></CardHeader>
                 <CardContent>
                   {heroWork.map((work: string) => (
                     <Typography key={work}>
