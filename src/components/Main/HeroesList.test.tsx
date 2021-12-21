@@ -1,9 +1,14 @@
 import { screen, cleanup } from "@testing-library/react";
+import { HashRouter } from 'react-router-dom';
 import React from "react";
 
 import HeroesList from "components/Main/HeroesList";
 import { heroesArray, hero1, hero3 } from "__mock__/heroes";
-import { renderWithRedux } from "__mock__/testUtils";
+import {
+  renderWithRedux,
+  renderPipe,
+  withMockedStore,
+} from "__mock__/testUtils";
 
 const heroesListProps = {
   isMobile: false,
@@ -12,6 +17,17 @@ const heroesListProps = {
 
 describe("HeroesList with mockedStore", () => {
   afterEach(cleanup);
+
+  it("Should work", () => {
+    const { debug } = renderPipe(
+      [withMockedStore({})],
+      <HashRouter>
+        <HeroesList {...heroesListProps} />
+      </HashRouter>
+    );
+
+    debug(undefined, 9999);
+  });
 
   it("renders component with mocked heroes quantity", () => {
     renderWithRedux(<HeroesList {...heroesListProps} />, {
