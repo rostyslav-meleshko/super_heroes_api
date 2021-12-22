@@ -1,5 +1,5 @@
 import { screen, cleanup } from "@testing-library/react";
-import { HashRouter } from 'react-router-dom';
+import { HashRouter } from "react-router-dom";
 import React from "react";
 
 import HeroesList from "components/Main/HeroesList";
@@ -8,6 +8,7 @@ import {
   renderWithRedux,
   renderPipe,
   withMockedStore,
+  withMemoryRouter,
 } from "__mock__/testUtils";
 
 const heroesListProps = {
@@ -20,10 +21,10 @@ describe("HeroesList with mockedStore", () => {
 
   it("Should work", () => {
     const { debug } = renderPipe(
-      [withMockedStore({})],
-      <HashRouter>
-        <HeroesList {...heroesListProps} />
-      </HashRouter>
+      [withMockedStore({}), withMemoryRouter()],
+      // <HashRouter>
+      <HeroesList {...heroesListProps} />
+      // </HashRouter>
     );
 
     debug(undefined, 9999);

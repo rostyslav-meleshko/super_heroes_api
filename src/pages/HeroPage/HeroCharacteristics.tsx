@@ -25,9 +25,6 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
   const heroConnections = hero ? Object.keys(hero.connections) : [];
   const heroWork = hero ? Object.keys(hero.work) : [];
 
-  console.log(heroAppearance);
-  console.log(hero?.slug);
-
   return (
     <>
       <Typography

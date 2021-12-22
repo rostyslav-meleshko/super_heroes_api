@@ -40,6 +40,7 @@ const HeroPage: FC = () => {
           justifyContent="center"
           alignItems="center"
           mt="100px"
+          data-testid="loader"
         >
           <CircularProgress size={200} variant="indeterminate" thickness={3} />
         </Box>

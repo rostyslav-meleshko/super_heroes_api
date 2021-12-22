@@ -1,5 +1,12 @@
 import { render, RenderResult } from "@testing-library/react";
-import { BrowserRouter, HashRouter } from "react-router-dom";
+import {
+  BrowserRouter,
+  HashRouter,
+  MemoryRouter,
+  Route,
+  Router,
+} from "react-router-dom";
+import { MemoryHistory, createMemoryHistory } from "history";
 import {
   createStore,
   DeepPartial,
@@ -15,7 +22,7 @@ import { rootReducer } from "store/reducers";
 
 interface Renderer<T = any> {
   render: React.ReactElement;
-  data: T;
+  data: T; // for what we holding data?
 }
 
 type WithFunction<T = any> = (ui: React.ReactNode) => Renderer<T>;
@@ -41,7 +48,7 @@ export const withMockedStore =
     const { getState } = createStore(
       () => ({
         ...initialState,
-        ...props
+        ...props,
       }),
       props as StoreEnhancer<RootState>
     );
@@ -57,9 +64,33 @@ export const withMockedStore =
 
 type PassedData = DeepPartial<Store>;
 type Data = Store;
+
 export interface RenderPipe extends RenderResult {
   data: Data;
 }
+
+export const withMemoryRouter =
+  (): WithFunction =>
+  (ui: React.ReactNode): Renderer => ({
+    render: <MemoryRouter>{ui}</MemoryRouter>,
+    data: {},
+  });
+
+export const withRouterAndPath =
+  ({ route = "/", path = "/" }): WithFunction =>
+  (ui: any): Renderer => {
+    const history = createMemoryHistory();
+    history.push(route);
+
+    return {
+      render: (
+        <Router history={history}>
+          <Route path={path}>{ui}</Route>
+        </Router>
+      ),
+      data: {},
+    };
+  };
 
 export const renderPipe = (
   args: Array<WithFunction<PassedData>>,
@@ -87,10 +118,11 @@ export const renderPipe = (
 
   return {
     ...render(mergeRenderer.render),
-    data: mergeRenderer.data
-  }
+    data: mergeRenderer.data,
+  };
 };
 
+// separated method for testing alone, methods which was created before
 export const renderWithRedux = (
   component: React.ReactElement,
   initialState: Partial<RootState> = {}
@@ -106,6 +138,7 @@ export const renderWithRedux = (
   );
 };
 
+// works good, but return not the React.React element, but RenderResult
 export const renderWithRouter = (
   component: React.ReactElement,
   { route = "/" }

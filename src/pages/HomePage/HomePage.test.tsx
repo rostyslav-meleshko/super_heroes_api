@@ -13,6 +13,7 @@ import HomePage from "pages/HomePage/HomePage";
 
 test("button text changes from `Favorite Heroes` to `All Heroes`", () => {
   const history = createMemoryHistory();
+  console.log("history", history);
 
   render(
     <Provider store={store}>

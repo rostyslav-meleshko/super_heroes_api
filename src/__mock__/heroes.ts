@@ -1,23 +1,31 @@
 export const hero1 = {
   id: 1,
   appearance: {
-    eyeColor: "black",
-    gender: "male",
-    hairColor: "black",
-    height: ["6ft", "190cm"],
-    race: "human",
-    weight: ["5pd", "100kg"],
+    eyeColor: "Yellow",
+    gender: "Male",
+    hairColor: "No Hair",
+    height: ["6ft", "203 cm"],
+    race: "Human",
+    weight: ["5pd", "441 kg"],
   },
   biography: {
-    aliases: ["1", "2"],
+    aliases: ["Rock Jones"],
     alignment: "good",
-    alterEgos: "string",
-    firstAppearance: "string",
-    fullName: "string",
-    placeOfBirth: "string",
-    publisher: "string",
+    alterEgos: "No alter egos found",
+    firstAppearance: "Hulk Vol 2 #2 (April, 2008) (as A-Bomb)",
+    fullName: "Richard Milhouse Jones",
+    placeOfBirth: "Scarsdale, Arizona",
+    publisher: "Marvel Comics",
   },
-  connections: { groupAffiliation: "string", relatives: "string" },
+  connections: {
+    groupAffiliation:
+      "Hulk Family; Excelsior (sponsor), Avengers (honorary member); formerly partner of the Hulk," +
+      " Captain America and Captain Marvel; Teen Brigade; ally of Rom",
+    relatives:
+      "Marlo Chandler-Jones (wife); Polly (aunt); Mrs. Chandler (mother-in-law); Keith Chandler, " +
+      "Ray Chandler, three unidentified others (brothers-in-law); unidentified father (deceased); " +
+      "Jackie Shorr (alleged mother; unconfirmed)",
+  },
   images: {
     lg: "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/1-a-bomb.jpg",
     md: "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/md/1-a-bomb.jpg",
