@@ -27,8 +27,6 @@ export const useServersRequest = <T extends ServerFetchUrls>(
     setIsLoading(true);
 
     const fetchData = async (): Promise<void> => {
-      // mock fetch, spy.on, test server 503, 404, etc...
-      // status 200, isFailed = true;
       try {
         const response = await fetch(url);
 
@@ -44,13 +42,11 @@ export const useServersRequest = <T extends ServerFetchUrls>(
           dispatch(setAllHeroes(data));
         }
 
-        // console.log("data", data, "data.body", data.body);
-
         setData(data);
-        setIsLoading(false);
       } catch (error) {
         console.warn(error);
         setIsError(true);
+      } finally {
         setIsLoading(false);
       }
     };

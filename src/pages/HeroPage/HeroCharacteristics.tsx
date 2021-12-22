@@ -7,13 +7,26 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  ImageListItem,
 } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { HeroData } from "types";
+import { withStyles } from "@material-ui/core/styles";
 
 type HeroDataProps = {
   hero: HeroData | null;
 };
+
+const StyledAccordion = withStyles({
+  root: {
+    minWidth: "300px",
+    cursor: "pointer",
+  },
+})(Accordion);
 
 const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
   const theme = useTheme();
@@ -49,28 +62,44 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
                 title={hero?.name}
               />
             </Box>
-            <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-              <Card>
-                <CardHeader title="Slug"></CardHeader>
-                <CardContent>
-                  <Typography>{hero?.slug.toUpperCase()}</Typography>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader title="Powerstats"></CardHeader>
-                <CardContent>
+            <Box
+              display="flex"
+              flexDirection="column"
+              flexWrap="wrap"
+              minWidth={isColumn ? "320px" : "640px"}
+            >
+              <StyledAccordion variant="outlined">
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  title="Powerstats"
+                >
+                  <Typography>Powerstats</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                   {heroPowerstats.map((stat: string) => (
-                    <Typography key={stat}>
-                      {stat} : {hero?.powerstats[stat]}
+                    <Typography key={stat} variant="caption">
+                      <br />
+                      <p>
+                        {stat} : {hero?.powerstats[stat]}
+                      </p>{" "}
+                      <br />
                     </Typography>
                   ))}
-                </CardContent>
-              </Card>
+                </AccordionDetails>
+              </StyledAccordion>
 
-              <Card>
-                <CardHeader title="Appearance"></CardHeader>
-                <CardContent>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  title="Appearance"
+                >
+                  <Typography>Appearance</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                   {heroAppearance.map((app: string) => (
                     <Typography key={app}>
                       {app} :{" "}
@@ -81,43 +110,62 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
                         : hero?.appearance[app]}
                     </Typography>
                   ))}
-                </CardContent>
-              </Card>
+                </AccordionDetails>
+              </Accordion>
 
-              {/*<Container maxWidth="sm">*/}
-              <Card>
-                <CardHeader title="Biography"></CardHeader>
-                <CardContent>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  title="Biography"
+                >
+                  <Typography>Biography</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                   {heroBiography.map((bio: string) => (
                     <Typography key={bio} noWrap={false}>
                       {bio} : {hero?.biography[bio]}
                     </Typography>
                   ))}
-                </CardContent>
-              </Card>
-              {/*</Container>*/}
+                </AccordionDetails>
+              </Accordion>
 
-              <Card>
-                <CardHeader title="Connections"></CardHeader>
-                <CardContent>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  title="Connections"
+                >
+                  <Typography>Connections</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                   {heroConnections.map((connection: string) => (
                     <Typography key={connection}>
                       {connection} : {hero?.connections[connection]}
                     </Typography>
                   ))}
-                </CardContent>
-              </Card>
+                </AccordionDetails>
+              </Accordion>
 
-              <Card>
-                <CardHeader title="Work"></CardHeader>
-                <CardContent>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  title="Work"
+                >
+                  <Typography>Work</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                   {heroWork.map((work: string) => (
                     <Typography key={work}>
                       {work} : {hero?.work[work]}
                     </Typography>
                   ))}
-                </CardContent>
-              </Card>
+                </AccordionDetails>
+              </Accordion>
             </Box>
           </>
         )}

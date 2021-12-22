@@ -19,6 +19,7 @@ const HeroPage: FC = () => {
 
   const { heroId } = useParams<{ heroId: string }>();
   const heroUrl = `${ServerFetchUrls.HeroDataById}${heroId}.json`;
+
   const {
     isLoading,
     data: hero,

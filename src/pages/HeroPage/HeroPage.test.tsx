@@ -20,6 +20,7 @@ import { HeroData } from "types";
 import * as hooks from "hooks/useServersRequest";
 
 const heroTestUrl = "/hero/Angel/id/24";
+const urlPath = "/hero/:heroName/id/:heroId";
 
 type HookResponse = {
   isError: boolean;
@@ -43,7 +44,18 @@ describe("HeroPage working together with hooks", () => {
   // fetching data from api server
 
   it("should load correct hero acc to url", async () => {
-    // below commented code show alternative way to manage same test
+    renderPipe(
+      [
+        withRouterAndPath({
+          route: heroTestUrl,
+          path: urlPath,
+        }),
+        withMockedStore({}),
+      ],
+      <HeroPage />
+    );
+
+    // below commented code shows alternative way to manage same test, works with local store
 
     // renderWithRouter(
     //   <Provider store={store}>
@@ -53,17 +65,6 @@ describe("HeroPage working together with hooks", () => {
     //   </Provider>,
     //   { route: heroTestUrl }
     // );
-
-    renderPipe(
-      [
-        withRouterAndPath({
-          route: heroTestUrl,
-          path: "/hero/:heroName/id/:heroId",
-        }),
-        withMockedStore({}),
-      ],
-      <HeroPage />
-    );
 
     expect(await screen.findByTestId("header-hero-name")).toHaveTextContent(
       /Angel/i
