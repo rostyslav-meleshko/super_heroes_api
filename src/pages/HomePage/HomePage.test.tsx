@@ -1,48 +1,42 @@
-import { createMemoryHistory } from "history";
-import { render, screen } from "@testing-library/react";
-import { Router } from "react-router-dom";
+import { screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import { Provider } from "react-redux";
 
-import Header from "components/Header/Header";
-import store from "store/rootStore";
-import { renderWithRedux } from "__mock__/testUtils";
+import {
+  renderPipe,
+  withMemoryRouter,
+  withMyMockedStore,
+  withStore,
+} from "__mock__/testUtils";
 import { hero3, heroesArray } from "__mock__/heroes";
 import HomePage from "pages/HomePage/HomePage";
 
-test("button text changes from `Favorite Heroes` to `All Heroes`", () => {
-  const history = createMemoryHistory();
-  console.log("history", history);
+describe("HomePage", () => {
+  beforeEach(cleanup); // console.error
 
-  render(
-    <Provider store={store}>
-      <Router history={history}>
-        <Header />
-      </Router>
-    </Provider>
-  );
+  test("button text changes from `Favorite Heroes` to `All Heroes`", () => {
+    renderPipe([withMemoryRouter(), withStore()], <HomePage />);
 
-  // possible ways to find the element
-  // userEvent.click(screen.getByTestId("header-button-heroes")); //.closest
-  // getByRole('button', {name: /submit/i}) // getByText, queryByText... .closest("button")
-  userEvent.click(screen.getByRole("button", { name: /favorite heroes/i }));
+    userEvent.click(screen.getByRole("button", { name: /favorite heroes/i }));
 
-  expect(screen.getByTestId("header-button-heroes").textContent).toEqual(
-    "All Heroes"
-  );
-});
-
-// here new test, for testing mockedStore correctly, there is already favorite hero in the store
-test("when clicked on favourite button, favorite hero should be showed", async () => {
-  renderWithRedux(<HomePage />, {
-    allHeroes: heroesArray,
-    favoriteHeroes: [hero3],
+    expect(screen.getByTestId("header-button-heroes").textContent).toEqual(
+      "All Heroes"
+    );
   });
 
-  userEvent.click(screen.getByRole("button", { name: /favorite heroes/i }));
+  test("when clicked on favourite button, favorite hero should be showed", async () => {
+    renderPipe(
+      [
+        withMemoryRouter(),
+        withMyMockedStore({ allHeroes: heroesArray, favoriteHeroes: [hero3] }),
+      ],
+      <HomePage />
+    );
 
-  expect(
-    await screen.findByTestId(`icon-favorite-${hero3.id}`)
-  ).toBeInTheDocument();
+    userEvent.click(screen.getByRole("button", { name: /favorite heroes/i }));
+
+    expect(
+      await screen.findByTestId(`icon-favorite-${hero3.id}`)
+    ).toBeInTheDocument();
+  });
 });

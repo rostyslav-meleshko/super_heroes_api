@@ -17,7 +17,7 @@ import {
 import { Provider } from "react-redux";
 import React from "react";
 
-import { RootState, initialState } from "store/rootStore";
+import store, { RootState, initialState } from "store/rootStore";
 import { rootReducer } from "store/reducers";
 
 interface Renderer<T = any> {
@@ -27,10 +27,19 @@ interface Renderer<T = any> {
 
 type WithFunction<T = any> = (ui: React.ReactNode) => Renderer<T>;
 
+type PassedData = DeepPartial<Store>;
+type Data = Store;
+
+export interface RenderPipe extends RenderResult {
+  data: Data;
+}
+
 const createMockStore = (override: Partial<Store> = {}): Store => ({
   subscribe: () => () => {},
   dispatch: (action) => action,
-  getState: () => undefined,
+  getState: () => {
+    return initialState;
+  },
   replaceReducer: () => {},
   [Symbol.observable]: (): Observable<any> => ({
     subscribe: () => ({
@@ -42,6 +51,7 @@ const createMockStore = (override: Partial<Store> = {}): Store => ({
   }),
 });
 
+// here some troubles
 export const withMockedStore =
   (props: DeepPartial<RootState>): WithFunction<Store> =>
   (ui: React.ReactNode): Renderer<Store> => {
@@ -62,12 +72,35 @@ export const withMockedStore =
     };
   };
 
-type PassedData = DeepPartial<Store>;
-type Data = Store;
+export const withMyMockedStore =
+  (initialState: Partial<RootState> = {}): WithFunction =>
+  (ui: React.ReactNode): Renderer => {
+    const mockedStore = createStore(() => {
+      return initialState;
+    }, initialState);
 
-export interface RenderPipe extends RenderResult {
-  data: Data;
-}
+    return {
+      render: (
+        <Provider store={mockedStore}>
+          <HashRouter>{ui}</HashRouter>
+        </Provider>
+      ),
+      data: {},
+    };
+  };
+
+export const withStore =
+  (props?: DeepPartial<RootState>): WithFunction =>
+  (ui: React.ReactNode): Renderer => {
+    const store: Store = createStore(
+      rootReducer,
+      props as StoreEnhancer<RootState>
+    );
+    return {
+      render: <Provider store={store}>{ui}</Provider>,
+      data: {},
+    };
+  };
 
 export const withMemoryRouter =
   (): WithFunction =>

@@ -1,19 +1,16 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import App from "./App";
-import { HashRouter } from "react-router-dom";
+import { screen } from "@testing-library/react";
 import { Provider } from "react-redux";
+
+import App from "./App";
 import store from "store/rootStore";
-import { CssBaseline } from "@material-ui/core";
+import { renderPipe, withMemoryRouter } from "__mock__/testUtils";
 
 test("renders button `Favourite Heroes` in App component", () => {
-  render(
+  renderPipe(
+    [withMemoryRouter()],
     <Provider store={store}>
-      <CssBaseline>
-        <HashRouter>
-          <App />
-        </HashRouter>
-      </CssBaseline>
+      <App />
     </Provider>
   );
 

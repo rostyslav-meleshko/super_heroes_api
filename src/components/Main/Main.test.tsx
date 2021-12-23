@@ -1,24 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { HashRouter } from "react-router-dom";
-import { Provider } from "react-redux";
 import React from "react";
 
-import { renderWithRedux } from "__mock__/testUtils";
-import store from "store/rootStore";
 import Main from "components/Main/Main";
-import { heroesArray, hero1, hero3 } from "__mock__/heroes";
+import { renderPipe, withStore, withMemoryRouter } from "__mock__/testUtils";
 
 const ariaLabel = "heart A-Bomb";
 
 test("changes icon of not favorite hero to favorite when clicking on it", async () => {
-  render(
-    <Provider store={store}>
-      <HashRouter>
-        <Main />
-      </HashRouter>
-    </Provider>
-  );
+  renderPipe([withStore(), withMemoryRouter()], <Main />);
 
   const heroHeartButton = await screen.findByLabelText(ariaLabel);
   expect(heroHeartButton).toBeInTheDocument();

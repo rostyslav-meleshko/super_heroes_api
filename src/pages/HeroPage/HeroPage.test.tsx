@@ -1,23 +1,17 @@
 import { screen } from "@testing-library/react";
-import { Route } from "react-router-dom";
 import React from "react";
-import { Provider } from "react-redux";
 import { cleanup } from "@testing-library/react-hooks";
 
 import {
   renderPipe,
-  renderWithRouter,
-  // withBrowserRouter,
   withMemoryRouter,
   withMockedStore,
   withRouterAndPath,
 } from "__mock__/testUtils";
-import store from "store/rootStore";
 import HeroPage from "pages/HeroPage/HeroPage";
-import { hero1 } from "__mock__/heroes";
-// import { useServersRequest } from "hooks/useServersRequest";
-import { HeroData } from "types";
 import * as hooks from "hooks/useServersRequest";
+import { hero1 } from "__mock__/heroes";
+import { HeroData } from "types";
 
 const heroTestUrl = "/hero/Angel/id/24";
 const urlPath = "/hero/:heroName/id/:heroId";
@@ -28,7 +22,7 @@ type HookResponse = {
   data: HeroData | null;
 };
 
-const withMockedUseServersRequestHook = (hookResponse: HookResponse) => {
+const withMockedUseServersRequestHook = (hookResponse: HookResponse): void => {
   const mockedHook = jest.spyOn(hooks, "useServersRequest");
 
   mockedHook.mockImplementationOnce(() => {
@@ -36,47 +30,11 @@ const withMockedUseServersRequestHook = (hookResponse: HookResponse) => {
   });
 };
 
-describe("HeroPage working together with hooks", () => {
-  afterEach(cleanup);
-
-  // this test tests not only component, but and the hook also, simulate taking the params from the url,
-  // so renderWithRouter is good for testing the url params (instead of testing match) and is good for the testing
-  // fetching data from api server
-
-  it("should load correct hero acc to url", async () => {
-    renderPipe(
-      [
-        withRouterAndPath({
-          route: heroTestUrl,
-          path: urlPath,
-        }),
-        withMockedStore({}),
-      ],
-      <HeroPage />
-    );
-
-    // below commented code shows alternative way to manage same test, works with local store
-
-    // renderWithRouter(
-    //   <Provider store={store}>
-    //     <Route path="/hero/:heroName/id/:heroId">
-    //       <HeroPage />
-    //     </Route>
-    //   </Provider>,
-    //   { route: heroTestUrl }
-    // );
-
-    expect(await screen.findByTestId("header-hero-name")).toHaveTextContent(
-      /Angel/i
-    );
-    expect(
-      await screen.findByText(/Warren Kenneth Worthington III/i)
-    ).toBeInTheDocument();
-  });
-});
-
 describe("HeroPage with different api responses", () => {
-  afterEach(cleanup);
+  afterEach(() => {
+    cleanup();
+    jest.clearAllMocks();
+  });
 
   it("Should show hero data after success fetch API, with no error", async () => {
     withMockedUseServersRequestHook({
@@ -119,5 +77,29 @@ describe("HeroPage with different api responses", () => {
     renderPipe([withMemoryRouter(), withMockedStore({})], <HeroPage />);
 
     expect(await screen.findByTestId("loader")).toBeInTheDocument();
+  });
+});
+
+describe("HeroPage works correct together with hooks", () => {
+  afterEach(jest.clearAllMocks);
+
+  it("should load correct hero according to passed url data ", async () => {
+    renderPipe(
+      [
+        withRouterAndPath({
+          route: heroTestUrl,
+          path: urlPath,
+        }),
+        withMockedStore({}),
+      ],
+      <HeroPage />
+    );
+
+    expect(await screen.findByTestId("header-hero-name")).toHaveTextContent(
+      "Angel"
+    );
+    expect(
+      await screen.findByText(/Warren Kenneth Worthington III/i)
+    ).toBeInTheDocument();
   });
 });

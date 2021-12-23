@@ -35,7 +35,6 @@ describe("useServerRequest", () => {
         { wrapper }
       );
 
-      // how to avoid this manoeuvre with hookResult? how to use 'result' in each 'it' test case without 'hookResult'?
       hookResult = result;
     });
 
@@ -57,7 +56,7 @@ describe("useServerRequest", () => {
 
     it("should return array of heroes, when fetching API for allHeroes", async () => {
       await waitFor(() => {
-        expect(hookResult.current.data).toHaveLength(numberOfHeroesTotal); // ???
+        expect(hookResult.current.data).toHaveLength(numberOfHeroesTotal);
       });
     });
 
@@ -109,12 +108,6 @@ describe("useServerRequest", () => {
     });
   });
 });
-
-const heroArraysTest = [
-  { id: 1, name: "a" },
-  { id: 2, name: "b" },
-  { id: 3, name: "c" },
-];
 
 describe("when calling correct api, but server response error 404", () => {
   it("should return an error = true", async () => {
