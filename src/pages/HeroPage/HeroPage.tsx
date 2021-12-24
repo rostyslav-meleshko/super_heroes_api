@@ -26,6 +26,8 @@ const HeroPage: FC = () => {
     isError,
   } = useServersRequest<ServerFetchUrls.HeroDataById>(heroUrl);
 
+  const ifHeroesLoadedSuccessfully = !isLoading && !isError;
+
   return (
     <Box
       maxWidth={isColumn ? "sm" : "lg"}
@@ -55,7 +57,7 @@ const HeroPage: FC = () => {
         </Container>
       )}
 
-      {!isLoading && !isError && <HeroCharacteristics hero={hero} />}
+      {ifHeroesLoadedSuccessfully && <HeroCharacteristics hero={hero} />}
     </Box>
   );
 };

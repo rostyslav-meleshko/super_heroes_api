@@ -10,7 +10,7 @@ const Header: FC = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const isFavoriteHeroesShowed = searchParams.get(UrlSearchOptions.IsFavorite);
-  const [searchValue, setSearchValue] = useHeroSearch("");
+  const [searchValue, setSearchValue] = useHeroSearch();
 
   const toggleIsFavouriteInUrl = (): void => {
     if (searchParams.get(UrlSearchOptions.IsFavorite)) {

@@ -31,14 +31,13 @@ export const useServersRequest = <T extends ServerFetchUrls>(
         const response = await fetch(url);
 
         if (response?.status > 299) {
-          console.log("response", response, "response.body", response.body);
-
           throw new Error("Response status > 299");
         }
 
         const data = await response?.json();
 
         if (url === ServerFetchUrls.AllHeroes) {
+          // check dispatch with mocked store
           dispatch(setAllHeroes(data));
         }
 
@@ -52,7 +51,7 @@ export const useServersRequest = <T extends ServerFetchUrls>(
     };
 
     fetchData();
-  }, [dispatch, url]);
+  }, [url]);
 
   return { isLoading, data, isError };
 };

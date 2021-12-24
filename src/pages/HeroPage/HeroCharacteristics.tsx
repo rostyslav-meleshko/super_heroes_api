@@ -1,16 +1,12 @@
 import React, { FC } from "react";
 import {
   Box,
-  Card,
-  CardContent,
-  CardHeader,
   Typography,
   useMediaQuery,
   useTheme,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  ImageListItem,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 

@@ -100,6 +100,10 @@ const Main: FC = () => {
     favoriteHeroes,
   ]);
 
+  const ifNoFavoriteHeroes = isOnlyFavorite && !paginatedHeroes.length;
+  const ifHeroesLoadedSuccessfully =
+    !isLoading && !isError && paginatedHeroes.length > 0;
+
   return (
     <main>
       <Box
@@ -130,26 +134,24 @@ const Main: FC = () => {
           </Container>
         )}
 
-        {isOnlyFavorite && !paginatedHeroes.length && (
+        {ifNoFavoriteHeroes && (
           <Typography variant="h5" align="center">
             You don't have favourite heroes yet
           </Typography>
         )}
 
-        {!isLoading && !isError && (
+        {ifHeroesLoadedSuccessfully && (
           <>
             <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
 
-            {paginatedHeroes.length > 0 && (
-              <Box display="flex" justifyContent="center" mt="6px">
-                <Pagination
-                  count={paginationPagesQuantity}
-                  size="small"
-                  page={page}
-                  onChange={handlePageChange}
-                />
-              </Box>
-            )}
+            <Box display="flex" justifyContent="center" mt="6px">
+              <Pagination
+                count={paginationPagesQuantity}
+                size="small"
+                page={page}
+                onChange={handlePageChange}
+              />
+            </Box>
           </>
         )}
       </Box>

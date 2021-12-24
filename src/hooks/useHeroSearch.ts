@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 
 import { UrlSearchOptions } from "types";
 
-type TypeUseHeroSearch = (
-  value: string
-) => [searchValue: string, setSearchValue: (value: string) => void];
+type TypeUseHeroSearch = () => [
+  searchValue: string,
+  setSearchValue: (value: string) => void
+];
 
-export const useHeroSearch: TypeUseHeroSearch = (value = "") => {
-  const [searchValue, setSearchValue] = useState(value);
+export const useHeroSearch: TypeUseHeroSearch = () => {
+  const [searchValue, setSearchValue] = useState("");
   const { search } = useLocation();
   const history = useHistory();
 
@@ -21,10 +22,13 @@ export const useHeroSearch: TypeUseHeroSearch = (value = "") => {
     } else {
       searchParams.delete(UrlSearchOptions.HeroName);
     }
-    history.push(`?${searchParams.toString()}`);
+
+    if (!history.location.search.includes(searchParams.toString())) {
+      history.push(`?${searchParams.toString()}`);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue, history]);
+  }, [searchValue, history.location.search]);
 
   return [searchValue, setSearchValue];
 };

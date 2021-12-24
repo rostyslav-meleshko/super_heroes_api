@@ -30,6 +30,33 @@ const withMockedUseServersRequestHook = (hookResponse: HookResponse): void => {
   });
 };
 
+describe("HeroPage works correct together with hooks", () => {
+  afterEach(() => {
+    cleanup();
+    jest.clearAllMocks();
+  });
+
+  it("should load correct hero according to passed url data ", async () => {
+    renderPipe(
+      [
+        withRouterAndPath({
+          route: heroTestUrl,
+          path: urlPath,
+        }),
+        withMockedStore({}),
+      ],
+      <HeroPage />
+    );
+
+    expect(await screen.findByTestId("header-hero-name")).toHaveTextContent(
+      "Angel"
+    );
+    expect(
+      await screen.findByText(/Warren Kenneth Worthington III/i)
+    ).toBeInTheDocument();
+  });
+});
+
 describe("HeroPage with different api responses", () => {
   afterEach(() => {
     cleanup();
@@ -77,29 +104,5 @@ describe("HeroPage with different api responses", () => {
     renderPipe([withMemoryRouter(), withMockedStore({})], <HeroPage />);
 
     expect(await screen.findByTestId("loader")).toBeInTheDocument();
-  });
-});
-
-describe("HeroPage works correct together with hooks", () => {
-  afterEach(jest.clearAllMocks);
-
-  it("should load correct hero according to passed url data ", async () => {
-    renderPipe(
-      [
-        withRouterAndPath({
-          route: heroTestUrl,
-          path: urlPath,
-        }),
-        withMockedStore({}),
-      ],
-      <HeroPage />
-    );
-
-    expect(await screen.findByTestId("header-hero-name")).toHaveTextContent(
-      "Angel"
-    );
-    expect(
-      await screen.findByText(/Warren Kenneth Worthington III/i)
-    ).toBeInTheDocument();
   });
 });

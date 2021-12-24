@@ -19,12 +19,10 @@ describe("HeroesList with mockedStore", () => {
   afterEach(cleanup);
 
   it("Should work", () => {
-    const { debug } = renderPipe(
+    renderPipe(
       [withMockedStore({}), withMemoryRouter()],
       <HeroesList {...heroesListProps} />
     );
-
-    debug(undefined, 9999);
   });
 
   it("renders component with mocked heroes quantity", () => {

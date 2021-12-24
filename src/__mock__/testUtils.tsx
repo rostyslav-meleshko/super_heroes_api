@@ -1,12 +1,6 @@
 import { render, RenderResult } from "@testing-library/react";
-import {
-  BrowserRouter,
-  HashRouter,
-  MemoryRouter,
-  Route,
-  Router,
-} from "react-router-dom";
-import { MemoryHistory, createMemoryHistory } from "history";
+import { HashRouter, MemoryRouter, Route, Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 import {
   createStore,
   DeepPartial,
@@ -92,10 +86,7 @@ export const withMyMockedStore =
 export const withStore =
   (props?: DeepPartial<RootState>): WithFunction =>
   (ui: React.ReactNode): Renderer => {
-    const store: Store = createStore(
-      rootReducer,
-      props as StoreEnhancer<RootState>
-    );
+    const store = createStore(rootReducer, props as StoreEnhancer<RootState>);
     return {
       render: <Provider store={store}>{ui}</Provider>,
       data: {},
@@ -169,14 +160,4 @@ export const renderWithRedux = (
       <HashRouter>{component}</HashRouter>
     </Provider>
   );
-};
-
-// works good, but return not the React.React element, but RenderResult
-export const renderWithRouter = (
-  component: React.ReactElement,
-  { route = "/" }
-): RenderResult => {
-  window.history.pushState({}, "Test hero page", route);
-
-  return render(component, { wrapper: BrowserRouter });
 };

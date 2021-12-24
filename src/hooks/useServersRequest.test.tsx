@@ -26,6 +26,7 @@ const wrapper: Wrapper = ({ children }) => (
 describe("useServerRequest", () => {
   afterEach(() => {
     cleanup();
+    jest.clearAllMocks();
   });
 
   describe("when calling AllHeroes correct URL", () => {
@@ -110,6 +111,11 @@ describe("useServerRequest", () => {
 });
 
 describe("when calling correct api, but server response error 404", () => {
+  afterEach(() => {
+    cleanup();
+    jest.clearAllMocks();
+  });
+
   it("should return an error = true", async () => {
     const fetchSpy = jest.spyOn(window, "fetch");
     fetchSpy.mockResolvedValueOnce({
