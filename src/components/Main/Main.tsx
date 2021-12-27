@@ -1,25 +1,16 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Box, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
-import { stateFavoriteHeroes } from "store/selectors";
 import HeroesList from "./HeroesList";
+import ErrorMessage from "components/ui/ErrorMessage";
+import Loader from "components/ui/Loader";
+import { stateFavoriteHeroes } from "store/selectors";
 import { useServersRequest } from "hooks/useServersRequest";
 import { definePaginatedHeroes } from "./utils";
-import {
-  UrlSearchOptions,
-  ServerFetchUrls,
-  // RequiredDataFromServer,
-} from "types";
+import { UrlSearchOptions, ServerFetchUrls } from "types";
 
 const Main: FC = () => {
   const theme = useTheme();
@@ -101,7 +92,7 @@ const Main: FC = () => {
   ]);
 
   const ifNoFavoriteHeroes = isOnlyFavorite && !paginatedHeroes.length;
-  const ifHeroesLoadedSuccessfully =
+  const isHeroesLoadedSuccessfully =
     !isLoading && !isError && paginatedHeroes.length > 0;
 
   return (
@@ -111,28 +102,9 @@ const Main: FC = () => {
         minWidth={isMobile ? "300px" : "600px"}
         mt="6px"
       >
-        {isLoading && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            mt="100px"
-          >
-            <CircularProgress
-              size={200}
-              variant="indeterminate"
-              thickness={3}
-            />
-          </Box>
-        )}
+        {isLoading && <Loader />}
 
-        {isError && (
-          <Container>
-            <Typography variant="h4" align="center" color="error">
-              Loading error. Reload page
-            </Typography>
-          </Container>
-        )}
+        {isError && <ErrorMessage text="Loading error. Reload page" />}
 
         {ifNoFavoriteHeroes && (
           <Typography variant="h5" align="center">
@@ -140,7 +112,7 @@ const Main: FC = () => {
           </Typography>
         )}
 
-        {ifHeroesLoadedSuccessfully && (
+        {isHeroesLoadedSuccessfully && (
           <>
             <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
 

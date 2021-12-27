@@ -1,21 +1,27 @@
 import React, { FC } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Box, useMediaQuery, useTheme } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
 import HeroCharacteristics from "./HeroCharacteristics";
 import { ServerFetchUrls } from "types";
 import { useServersRequest } from "hooks/useServersRequest";
+import Loader from "components/ui/Loader";
+import ErrorMessage from "components/ui/ErrorMessage";
+
+const HeroPageBox = withStyles({
+  root: {
+    cursor: "pointer",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+})(Box);
 
 const HeroPage: FC = () => {
   const theme = useTheme();
-  const isColumn = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { heroId } = useParams<{ heroId: string }>();
   const heroUrl = `${ServerFetchUrls.HeroDataById}${heroId}.json`;
@@ -26,39 +32,19 @@ const HeroPage: FC = () => {
     isError,
   } = useServersRequest<ServerFetchUrls.HeroDataById>(heroUrl);
 
-  const ifHeroesLoadedSuccessfully = !isLoading && !isError;
+  const isHeroesLoadedSuccessfully = !isLoading && !isError;
 
   return (
-    <Box
-      maxWidth={isColumn ? "sm" : "lg"}
-      minWidth={isColumn ? "320px" : "600px"}
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
+    <HeroPageBox
+      maxWidth={isMobile ? "sm" : "lg"}
+      minWidth={isMobile ? "320px" : "600px"}
     >
-      {isLoading && (
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          mt="100px"
-          data-testid="loader"
-        >
-          <CircularProgress size={200} variant="indeterminate" thickness={3} />
-        </Box>
-      )}
+      {isLoading && <Loader />}
 
-      {isError && (
-        <Container>
-          <Typography variant="h4" align="center" color="error">
-            Loading error. Reload page
-          </Typography>
-        </Container>
-      )}
+      {isError && <ErrorMessage text="Loading error. Reload page" />}
 
-      {ifHeroesLoadedSuccessfully && <HeroCharacteristics hero={hero} />}
-    </Box>
+      {isHeroesLoadedSuccessfully && <HeroCharacteristics hero={hero} />}
+    </HeroPageBox>
   );
 };
 

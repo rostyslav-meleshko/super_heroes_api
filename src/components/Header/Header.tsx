@@ -35,12 +35,12 @@ const Header: FC = () => {
 
         <Button
           variant="contained"
-          color={isFavoriteHeroesShowed ? "primary" : "secondary"}
           size="small"
           fullWidth={true}
-          onClick={toggleIsFavouriteInUrl}
+          color={isFavoriteHeroesShowed ? "primary" : "secondary"}
           name="toggle-favorite-heroes"
           data-testid="header-button-heroes"
+          onClick={toggleIsFavouriteInUrl}
         >
           {isFavoriteHeroesShowed ? "All Heroes" : "Favorite Heroes"}
         </Button>

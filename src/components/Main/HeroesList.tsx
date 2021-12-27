@@ -54,8 +54,6 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                 actionIcon={
                   <IconButton
                     aria-label={`heart ${hero.name}`}
-                    // data-testid={`heart ${hero.name}`}
-                    // className={classes.icon}
                     onClick={(): void => {
                       toggleCurrentHeroAsFavorite(hero);
                     }}
@@ -74,7 +72,6 @@ const HeroesList: FC<PropsHeroesList> = ({ isMobile, showedHeroes }) => {
                   </IconButton>
                 }
                 actionPosition="left"
-                // className={classes.titleBar}
               />
             </StyledImageListItem>
           ))}

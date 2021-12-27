@@ -12,11 +12,13 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { HeroData } from "types";
 import { withStyles } from "@material-ui/core/styles";
+import ErrorMessage from "components/ui/ErrorMessage";
 
 type HeroDataProps = {
   hero: HeroData | null;
 };
 
+// TODO: adjust styling. Make responsible markup for the Accordion
 const StyledAccordion = withStyles({
   root: {
     minWidth: "300px",
@@ -26,7 +28,7 @@ const StyledAccordion = withStyles({
 
 const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
   const theme = useTheme();
-  const isColumn = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const heroPowerstats = hero ? Object.keys(hero.powerstats) : [];
   const heroAppearance = hero ? Object.keys(hero.appearance) : [];
@@ -37,13 +39,13 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
   return (
     <>
       <Typography
-        variant={isColumn ? "h4" : "h2"}
+        variant={isMobile ? "h4" : "h2"}
         align="center"
         data-testid="header-hero-name"
       >
         {hero?.name}
       </Typography>
-      <Box display="flex" flexDirection={isColumn ? "column" : "row"}>
+      <Box display="flex" flexDirection={isMobile ? "column" : "row"}>
         {hero && (
           <>
             <Box
@@ -53,7 +55,7 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
               alignItems="center"
             >
               <img
-                src={isColumn ? `${hero.images.md}` : `${hero.images.lg}`}
+                src={isMobile ? `${hero.images.md}` : `${hero.images.lg}`}
                 alt={hero?.name}
                 title={hero?.name}
               />
@@ -62,7 +64,7 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
               display="flex"
               flexDirection="column"
               flexWrap="wrap"
-              minWidth={isColumn ? "320px" : "640px"}
+              minWidth={isMobile ? "320px" : "640px"}
             >
               <StyledAccordion variant="outlined">
                 <AccordionSummary
@@ -166,11 +168,7 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
           </>
         )}
 
-        {!hero && (
-          <Typography align="center" variant="h2">
-            No such hero found
-          </Typography>
-        )}
+        {!hero && <ErrorMessage text="No such hero found" />}
       </Box>
     </>
   );
