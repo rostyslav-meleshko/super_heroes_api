@@ -1,3 +1,3 @@
 server API = "https://akabab.github.io/superhero-api/api/";
 
-with failed test
+with correct test

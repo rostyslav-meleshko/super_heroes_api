@@ -35,16 +35,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll",
+    "test": "react-scripts test:nowatch --watchAll --ci",
     "eject": "react-scripts eject",
     "lint": "prettier --check .",
     "format": "prettier --write ."
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format && git add -A .",
-      "pre-push": "npm run test"
-    }
   },
   "eslintConfig": {
     "extends": [
