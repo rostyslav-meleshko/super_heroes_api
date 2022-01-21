@@ -10,7 +10,9 @@ describe("HeroesList with mockedStore", () => {
   it("renders component with mocked heroes quantity", () => {
     render(<HeroesCharacteristics hero={hero1} />);
 
-    expect(screen.getByTitle(/A-Bomb/i)).toBeInTheDocument();
+    // expect(screen.getByTitle(/A-Bomb/i)).toBeInTheDocument(); // correct test
+    expect(screen.getByTitle(/A-Bomb1/i)).toBeInTheDocument(); // test for error
+
     expect(screen.getByText(/Powerstats/i)).toBeInTheDocument();
     expect(screen.getByText(/Biography/i)).toBeInTheDocument();
     expect(screen.getByText(/Connections/i)).toBeInTheDocument();
