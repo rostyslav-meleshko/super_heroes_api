@@ -40,10 +40,10 @@
     "lint": "prettier --check .",
     "format": "prettier --write ."
   },
-  "husly": {
+  "husky": {
     "hooks": {
       "pre-commit": "npm run format && git add -A .",
-      "pre-push": "npm test"
+      "pre-push": "npm run test"
     }
   },
   "eslintConfig": {
