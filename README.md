@@ -1,3 +1,3 @@
 server API = "https://akabab.github.io/superhero-api/api/";
 
-hope it will work
+now with wrong tests, hope it will work
