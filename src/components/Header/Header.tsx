@@ -26,7 +26,7 @@ const Header: FC = () => {
     <header>
       <Box display="flex" height="50px" minWidth="300px">
         <Input
-          placeholder="Enter hero name"
+          placeholder="Enter hero name TEST"
           fullWidth={true}
           color="primary"
           value={searchValue}
