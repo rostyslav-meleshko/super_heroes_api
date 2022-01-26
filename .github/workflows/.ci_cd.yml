@@ -15,9 +15,9 @@ jobs:
         with:
           node-version: "16.13"
       - run: npm install
-      - run: npm run build
-      - name: Deploy
-        uses: rostyslav-meleshko/ghaction-github-pages@v1
-        with:
-          target_branch: gh-pages
-          build_dir: build
+      - run: npm run deploy
+#      - name: Deploy
+#        uses: rostyslav-meleshko/ghaction-github-pages@v1
+#        with:
+#          target_branch: gh-pages
+#          build_dir: build
