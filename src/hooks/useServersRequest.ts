@@ -51,7 +51,7 @@ export const useServersRequest = <T extends ServerFetchUrls>(
     };
 
     fetchData();
-  }, [url]);
+  }, [url, dispatch]);
 
   return { isLoading, data, isError };
 };
