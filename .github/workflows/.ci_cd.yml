@@ -22,15 +22,4 @@ jobs:
           target_branch: gh-pages
           build_dir: build
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_REPO_TOKEN }}
-#      - run: |
-#          git config --global user.email "meleshkorostyslav@gmail.com"
-#          git config --global user.name "Rostyslav Meleshko"
-#      - run: npm install
-#      - run: npm run deploy
-
-#      - name: Deploy
-#        uses: rostyslav-meleshko/ghaction-github-pages@v1
-#        with:
-#          target_branch: gh-pages
-#          build_dir: build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
