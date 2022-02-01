@@ -3,12 +3,13 @@ import React from "react";
 
 import HeroesCharacteristics from "./HeroCharacteristics";
 import { hero1 } from "__mock__/heroes";
+import { renderPipe, withMockedStore } from "__mock__/testUtils";
 
 describe("HeroesList with mockedStore", () => {
   afterEach(cleanup);
 
   it("renders component with mocked heroes quantity", () => {
-    render(<HeroesCharacteristics hero={hero1} />);
+    renderPipe([withMockedStore({})], <HeroesCharacteristics hero={hero1} />);
 
     expect(screen.getByTitle(/A-Bomb/i)).toBeInTheDocument(); // correct test
     // expect(screen.getByTitle(/A-Bomb1/i)).toBeInTheDocument(); // test for error

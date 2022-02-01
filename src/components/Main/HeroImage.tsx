@@ -21,7 +21,7 @@ export const HeroImage: FC<PropsHeroImage> = ({ heroName, avatarSrc }) => {
       )}
 
       <img
-        style={isLoaded ? {} : { display: "none" }}
+        style={isLoaded ? {} : { display: "none" }} // TODO css in js;
         src={`${avatarSrc}`}
         onLoad={(): void => {
           setIsLoaded(true);

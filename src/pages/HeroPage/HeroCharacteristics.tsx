@@ -7,12 +7,17 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  IconButton,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { HeroData } from "types";
 import { withStyles } from "@material-ui/core/styles";
 import ErrorMessage from "components/ui/ErrorMessage";
+import { Favorite, FavoriteBorder } from "@material-ui/icons";
+import { toggleHeroAsFavorite } from "store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { stateFavoriteHeroes } from "store/selectors";
 
 type HeroDataProps = {
   hero: HeroData | null;
@@ -27,8 +32,20 @@ const StyledAccordion = withStyles({
 })(Accordion);
 
 const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
+  const dispatch = useDispatch();
+  const favoriteHeroes = useSelector(stateFavoriteHeroes);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const toggleFavoriteHero = (hero: HeroData): void => {
+    dispatch(toggleHeroAsFavorite(hero));
+  };
+
+  const isFavoriteHero = (): boolean => {
+    return favoriteHeroes.findIndex((favHero) => hero?.id === favHero.id) >= 0
+      ? true
+      : false;
+  };
 
   const heroPowerstats = hero ? Object.keys(hero.powerstats) : [];
   const heroAppearance = hero ? Object.keys(hero.appearance) : [];
@@ -44,6 +61,29 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
         data-testid="header-hero-name"
       >
         {hero?.name}
+        <>
+          <IconButton
+            aria-label={`heart-hero-page ${hero?.name}`}
+            onClick={(): void => {
+              if (hero) {
+                console.log("hero data", hero);
+                toggleFavoriteHero(hero);
+              }
+            }}
+          >
+            {isFavoriteHero() ? (
+              <Favorite
+                color="error"
+                data-testid={`icon-favorite-hero-page-${hero?.id}`}
+              />
+            ) : (
+              <FavoriteBorder
+                color="error"
+                data-testid={`icon-not-favorite-hero-page-${hero?.id}`}
+              />
+            )}
+          </IconButton>
+        </>
       </Typography>
       <Box display="flex" flexDirection={isMobile ? "column" : "row"}>
         {hero && (

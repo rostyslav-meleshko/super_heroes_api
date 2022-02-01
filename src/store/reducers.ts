@@ -1,6 +1,6 @@
 import { initialState, RootState } from "store/rootStore";
 import { Actions, ActionTypes } from "./actions";
-import { toggleFavoriteHero } from "store/utils";
+import { toggleFavoriteHero, mergeAllHeroesWithFavorite } from "store/utils";
 
 export const rootReducer = (
   state = initialState,
@@ -8,10 +8,11 @@ export const rootReducer = (
 ): RootState => {
   switch (action.type) {
     case ActionTypes.SET_ALL_HEROES:
-      return {
-        ...state,
-        allHeroes: action.allHeroes,
-      };
+      return mergeAllHeroesWithFavorite(state, action.allHeroes);
+    // return {
+    //   ...state,
+    //   allHeroes: action.allHeroes,
+    // };
 
     case ActionTypes.TOGGLE_HERO_AS_FAVORITE:
       return toggleFavoriteHero(state, action.hero);
