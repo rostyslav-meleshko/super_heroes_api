@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { HeroData, ServerFetchUrls } from "types";
-import { setAllHeroes } from "store/actions";
 
 type ResponseData<T> = T extends ServerFetchUrls.AllHeroes
   ? HeroData[]
@@ -35,11 +34,6 @@ export const useServersRequest = <T extends ServerFetchUrls>(
         }
 
         const data = await response?.json();
-
-        if (url === ServerFetchUrls.AllHeroes) {
-          // check dispatch with mocked store
-          dispatch(setAllHeroes(data));
-        }
 
         setData(data);
       } catch (error) {

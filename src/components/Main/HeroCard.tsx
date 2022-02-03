@@ -4,13 +4,17 @@ import { IconButton, ImageListItemBar } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { Favorite, FavoriteBorder } from "@material-ui/icons";
 import { HeroImage } from "components/Main/HeroImage";
+import { useFavoriteHeroes } from "hooks/useFavoriteHero";
 
 type PropsHeroCard = {
   hero: HeroData;
-  toggleFavoriteHero: (hero: HeroData) => void;
 };
 
-export const HeroCard: FC<PropsHeroCard> = ({ hero, toggleFavoriteHero }) => {
+export const HeroCard: FC<PropsHeroCard> = ({ hero }) => {
+  const [setAsFavorite, unsetAsFavorite, isFavorite] = useFavoriteHeroes(
+    hero.id
+  );
+
   return (
     <>
       <HeroImage avatarSrc={hero.images.md} heroName={hero.name} />
@@ -21,24 +25,31 @@ export const HeroCard: FC<PropsHeroCard> = ({ hero, toggleFavoriteHero }) => {
         }
         position="bottom"
         actionIcon={
-          <IconButton
-            aria-label={`heart ${hero.name}`}
-            onClick={(): void => {
-              toggleFavoriteHero(hero);
-            }}
-          >
-            {hero.isFavorite ? (
+          isFavorite ? (
+            <IconButton
+              aria-label={`heart ${hero.name}`}
+              onClick={(): void => {
+                unsetAsFavorite(hero);
+              }}
+            >
               <Favorite
                 color="error"
                 data-testid={`icon-favorite-${hero.id}`}
               />
-            ) : (
+            </IconButton>
+          ) : (
+            <IconButton
+              aria-label={`heart ${hero.name}`}
+              onClick={(): void => {
+                setAsFavorite(hero);
+              }}
+            >
               <FavoriteBorder
                 color="error"
                 data-testid={`icon-not-favorite-${hero.id}`}
               />
-            )}
-          </IconButton>
+            </IconButton>
+          )
         }
         actionPosition="left"
       />

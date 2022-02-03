@@ -7,21 +7,28 @@ import Pagination from "@material-ui/lab/Pagination";
 import HeroesList from "./HeroesList";
 import ErrorMessage from "components/ui/ErrorMessage";
 import Loader from "components/ui/Loader";
-import { stateFavoriteHeroes } from "store/selectors";
+// import { stateFavoriteHeroes } from "store/selectors";
 import { useServersRequest } from "hooks/useServersRequest";
 import { definePaginatedHeroes } from "./utils";
 import { UrlSearchOptions, ServerFetchUrls } from "types";
+import { stateFavoriteHeroesByID } from "store/selectors";
 
 const Main: FC = () => {
   const theme = useTheme();
   const [isOnlyFavorite, setIsOnlyFavorite] = useState(false);
-  const favoriteHeroes = useSelector(stateFavoriteHeroes);
+  const favoriteHeroesIDs = useSelector(stateFavoriteHeroesByID);
+  // const favoriteHeroes = useSelector(stateFavoriteHeroes);
+
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const {
     isLoading,
     data: heroes,
     isError,
   } = useServersRequest<ServerFetchUrls.AllHeroes>(ServerFetchUrls.AllHeroes);
+
+  const favoriteHeroes = useMemo(() => {
+    return heroes ? heroes.filter((hero) => favoriteHeroesIDs[hero.id]) : [];
+  }, [favoriteHeroesIDs, heroes]);
 
   const [page, setPage] = useState(1);
   const { search } = useLocation();

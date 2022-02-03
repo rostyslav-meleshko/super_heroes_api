@@ -75,7 +75,10 @@ export enum ServerFetchUrls {
   WrongUrl = "https://akabab.github.io/superhero-api/api/0.json",
 }
 
-// export enum RequiredDataFromServer {
-//   AllHeroes = "AllHeroes",
-//   SingleHero = "SingleHero",
-// }
+export enum SessionStorage {
+  FavoriteHeroes = "FavoriteHeroes",
+}
+
+export type favoriteID = {
+  [key: number]: boolean;
+};
