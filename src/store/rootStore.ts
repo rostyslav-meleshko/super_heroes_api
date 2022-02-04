@@ -7,14 +7,14 @@ import { rootReducer } from "./reducers";
 
 export type RootState = {
   allHeroes: HeroData[];
-  favoriteHeroes: HeroData[];
+  // favoriteHeroes: HeroData[];
   favoriteHeroesByID: favoriteID;
 };
 
 // Initial state
 export const initialState: RootState = {
   allHeroes: [],
-  favoriteHeroes: [],
+  // favoriteHeroes: [],
   favoriteHeroesByID: {},
 };
 

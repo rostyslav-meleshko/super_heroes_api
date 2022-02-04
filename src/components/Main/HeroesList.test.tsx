@@ -27,8 +27,7 @@ describe("HeroesList with mockedStore", () => {
 
   it("renders component with mocked heroes quantity", () => {
     renderWithRedux(<HeroesList {...heroesListProps} />, {
-      allHeroes: heroesArray,
-      favoriteHeroes: [],
+      favoriteHeroesByID: {},
     });
 
     heroesArray.forEach((hero) =>
@@ -38,8 +37,7 @@ describe("HeroesList with mockedStore", () => {
 
   it("should show empty heart icon at not favourite hero, when isFavorite:false", () => {
     renderWithRedux(<HeroesList {...heroesListProps} />, {
-      allHeroes: heroesArray,
-      favoriteHeroes: [],
+      favoriteHeroesByID: {},
     });
 
     expect(
@@ -49,8 +47,7 @@ describe("HeroesList with mockedStore", () => {
 
   it("should show filled heart icon at favourite hero, when isFavorite:true", () => {
     renderWithRedux(<HeroesList {...heroesListProps} />, {
-      allHeroes: heroesArray,
-      favoriteHeroes: [],
+      favoriteHeroesByID: { 3: true },
     });
 
     expect(screen.getByTestId(`icon-favorite-${hero3.id}`)).toBeInTheDocument();

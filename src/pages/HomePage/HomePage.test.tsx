@@ -28,7 +28,7 @@ describe("HomePage", () => {
     renderPipe(
       [
         withMemoryRouter(),
-        withMyMockedStore({ allHeroes: heroesArray, favoriteHeroes: [hero3] }),
+        withMyMockedStore({ favoriteHeroesByID: { 3: true } }),
       ],
       <HomePage />
     );
