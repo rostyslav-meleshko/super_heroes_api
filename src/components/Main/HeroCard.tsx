@@ -4,16 +4,14 @@ import { IconButton, ImageListItemBar } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { Favorite, FavoriteBorder } from "@material-ui/icons";
 import { HeroImage } from "components/Main/HeroImage";
-import { useFavoriteHeroes } from "hooks/useFavoriteHero";
+import { useFavoriteHero } from "hooks/useFavoriteHero";
 
 type PropsHeroCard = {
   hero: HeroData;
 };
 
 export const HeroCard: FC<PropsHeroCard> = ({ hero }) => {
-  const [setAsFavorite, unsetAsFavorite, isFavorite] = useFavoriteHeroes(
-    hero.id
-  );
+  const [setAsFavorite, unsetAsFavorite, isFavorite] = useFavoriteHero(hero.id);
 
   return (
     <>
@@ -28,9 +26,7 @@ export const HeroCard: FC<PropsHeroCard> = ({ hero }) => {
           isFavorite ? (
             <IconButton
               aria-label={`heart ${hero.name}`}
-              onClick={(): void => {
-                unsetAsFavorite(hero);
-              }}
+              onClick={unsetAsFavorite}
             >
               <Favorite
                 color="error"
@@ -40,9 +36,7 @@ export const HeroCard: FC<PropsHeroCard> = ({ hero }) => {
           ) : (
             <IconButton
               aria-label={`heart ${hero.name}`}
-              onClick={(): void => {
-                setAsFavorite(hero);
-              }}
+              onClick={setAsFavorite}
             >
               <FavoriteBorder
                 color="error"

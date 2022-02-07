@@ -79,6 +79,6 @@ export enum SessionStorage {
   FavoriteHeroes = "FavoriteHeroes",
 }
 
-export type favoriteID = {
+export type FavoriteHeroesIDs = {
   [key: number]: boolean;
 };

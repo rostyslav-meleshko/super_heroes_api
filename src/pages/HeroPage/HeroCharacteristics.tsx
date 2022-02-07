@@ -15,7 +15,7 @@ import ErrorMessage from "components/ui/ErrorMessage";
 import { Favorite, FavoriteBorder } from "@material-ui/icons";
 
 import { HeroData } from "types";
-import { useFavoriteHeroes } from "hooks/useFavoriteHero";
+import { useFavoriteHero } from "hooks/useFavoriteHero";
 
 type HeroDataProps = {
   hero: HeroData | null;
@@ -32,7 +32,7 @@ const StyledAccordion = withStyles({
 const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [setAsFavorite, unsetAsFavorite, isFavorite] = useFavoriteHeroes(
+  const [setAsFavorite, unsetAsFavorite, isFavorite] = useFavoriteHero(
     hero?.id
   );
 
@@ -55,9 +55,7 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
             <IconButton
               aria-label={`heart-hero-page ${hero?.name}`}
               onClick={(): void => {
-                if (hero) {
-                  unsetAsFavorite(hero);
-                }
+                unsetAsFavorite();
               }}
             >
               <Favorite
@@ -69,9 +67,7 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
             <IconButton
               aria-label={`heart-hero-page ${hero?.name}`}
               onClick={(): void => {
-                if (hero) {
-                  setAsFavorite(hero);
-                }
+                setAsFavorite();
               }}
             >
               <FavoriteBorder

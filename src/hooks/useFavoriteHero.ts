@@ -2,36 +2,33 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { stateFavoriteHeroesByID } from "store/selectors";
 import { addFavoriteHero, removeFavoriteHero } from "store/actions";
-import { HeroData } from "types";
 import { setFavoriteHeroesToSessionStorage } from "store/utils";
 
 type TypeUseFavoriteHero = (
   id: number | undefined
 ) => [
-  setAsFavorite: (hero: HeroData) => void,
-  unsetAsFavorite: (hero: HeroData) => void,
+  setAsFavorite: () => void,
+  unsetAsFavorite: () => void,
   isFavorite: boolean
 ];
 
-export const useFavoriteHeroes: TypeUseFavoriteHero = (
+export const useFavoriteHero: TypeUseFavoriteHero = (
   id: number | undefined
 ) => {
   const dispatch = useDispatch();
   const favoriteHeroesIDS = useSelector(stateFavoriteHeroesByID);
 
-  const setAsFavorite = (hero: HeroData): void => {
-    dispatch(addFavoriteHero(hero));
+  const heroId = id ? id : -1;
+
+  const setAsFavorite = (): void => {
+    dispatch(addFavoriteHero(heroId));
   };
 
-  const unsetAsFavorite = (hero: HeroData): void => {
-    dispatch(removeFavoriteHero(hero));
+  const unsetAsFavorite = (): void => {
+    dispatch(removeFavoriteHero(heroId));
   };
 
-  let isFavorite = false;
-
-  if (id) {
-    isFavorite = favoriteHeroesIDS[id] ? favoriteHeroesIDS[id] : false;
-  }
+  const isFavorite = favoriteHeroesIDS[heroId];
 
   setFavoriteHeroesToSessionStorage(favoriteHeroesIDS);
 

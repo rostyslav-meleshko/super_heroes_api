@@ -2,20 +2,16 @@ import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
-import { favoriteID, HeroData } from "types";
+import { FavoriteHeroesIDs } from "types";
 import { rootReducer } from "./reducers";
 
 export type RootState = {
-  allHeroes: HeroData[];
-  // favoriteHeroes: HeroData[];
-  favoriteHeroesByID: favoriteID;
+  favoriteHeroesIDs: FavoriteHeroesIDs;
 };
 
 // Initial state
 export const initialState: RootState = {
-  allHeroes: [],
-  // favoriteHeroes: [],
-  favoriteHeroesByID: {},
+  favoriteHeroesIDs: {},
 };
 
 const store = createStore(

@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -9,12 +9,7 @@ import { setFavoriteHeroes } from "store/actions";
 
 const App: FC = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    const favoriteHeroesInSessionStorage =
-      getFavoriteHeroesFromSessionStorage();
-
-    dispatch(setFavoriteHeroes(favoriteHeroesInSessionStorage));
-  });
+  dispatch(setFavoriteHeroes(getFavoriteHeroesFromSessionStorage()));
 
   return (
     <Switch>

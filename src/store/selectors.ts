@@ -1,6 +1,7 @@
 import { RootState } from "./rootStore";
-import { favoriteID, HeroData } from "types";
+import { FavoriteHeroesIDs } from "types";
 
-export const stateAllHeroes = (state: RootState): HeroData[] => state.allHeroes;
-export const stateFavoriteHeroesByID = (state: RootState): favoriteID =>
-  state.favoriteHeroesByID;
+export const stateFavoriteHeroesByID = (state: RootState): FavoriteHeroesIDs =>
+  state.favoriteHeroesIDs;
+
+//todo reselect? memoisation?

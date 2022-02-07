@@ -9,24 +9,24 @@ export const rootReducer = (
     case ActionTypes.SET_FAVORITE_HEROES:
       return {
         ...state,
-        favoriteHeroesByID: action.favoriteHeroesIDs,
+        favoriteHeroesIDs: action.favoriteHeroesIDs,
       };
 
     case ActionTypes.ADD_FAVORITE_HERO:
       return {
         ...state,
-        favoriteHeroesByID: {
-          ...state.favoriteHeroesByID,
-          [action.favoriteHero.id]: true,
+        favoriteHeroesIDs: {
+          ...state.favoriteHeroesIDs,
+          [action.heroId]: true,
         },
       };
 
     case ActionTypes.REMOVE_FAVORITE_HERO:
       return {
         ...state,
-        favoriteHeroesByID: {
-          ...state.favoriteHeroesByID,
-          [action.favoriteHero.id]: false,
+        favoriteHeroesIDs: {
+          ...state.favoriteHeroesIDs,
+          [action.heroId]: false,
         },
       };
 

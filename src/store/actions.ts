@@ -1,4 +1,4 @@
-import { favoriteID, HeroData } from "types";
+import { FavoriteHeroesIDs } from "types";
 
 export enum ActionTypes {
   SET_FAVORITE_HEROES = "SET_FAVORITE_HEROES",
@@ -9,17 +9,17 @@ export enum ActionTypes {
 
 export type SetFavoriteHeroesHeroes = {
   type: ActionTypes.SET_FAVORITE_HEROES;
-  favoriteHeroesIDs: favoriteID;
+  favoriteHeroesIDs: FavoriteHeroesIDs;
 };
 
 export type AddFavoriteHero = {
   type: ActionTypes.ADD_FAVORITE_HERO;
-  favoriteHero: HeroData;
+  heroId: number;
 };
 
 export type RemoveFavoriteHero = {
   type: ActionTypes.REMOVE_FAVORITE_HERO;
-  favoriteHero: HeroData;
+  heroId: number;
 };
 
 export type Actions =
@@ -28,17 +28,19 @@ export type Actions =
   | RemoveFavoriteHero;
 
 // Action creators - a function returning an action object
-export const setFavoriteHeroes = (favoriteHeroesIDs: favoriteID): Actions => ({
+export const setFavoriteHeroes = (
+  favoriteHeroesIDs: FavoriteHeroesIDs
+): Actions => ({
   type: ActionTypes.SET_FAVORITE_HEROES,
   favoriteHeroesIDs: favoriteHeroesIDs,
 });
 
-export const addFavoriteHero = (favoriteHero: HeroData): Actions => ({
+export const addFavoriteHero = (heroId: number): Actions => ({
   type: ActionTypes.ADD_FAVORITE_HERO,
-  favoriteHero: favoriteHero,
+  heroId: heroId,
 });
 
-export const removeFavoriteHero = (favoriteHero: HeroData): Actions => ({
+export const removeFavoriteHero = (heroId: number): Actions => ({
   type: ActionTypes.REMOVE_FAVORITE_HERO,
-  favoriteHero: favoriteHero,
+  heroId: heroId,
 });
