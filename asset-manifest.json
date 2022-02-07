@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/super_heroes_api/static/js/main.60d6bd6d.chunk.js",
+    "main.js.map": "/super_heroes_api/static/js/main.60d6bd6d.chunk.js.map",
+    "runtime-main.js": "/super_heroes_api/static/js/runtime-main.4db13d62.js",
+    "runtime-main.js.map": "/super_heroes_api/static/js/runtime-main.4db13d62.js.map",
+    "static/js/2.6de6b1a2.chunk.js": "/super_heroes_api/static/js/2.6de6b1a2.chunk.js",
+    "static/js/2.6de6b1a2.chunk.js.map": "/super_heroes_api/static/js/2.6de6b1a2.chunk.js.map",
+    "index.html": "/super_heroes_api/index.html",
+    "static/js/2.6de6b1a2.chunk.js.LICENSE.txt": "/super_heroes_api/static/js/2.6de6b1a2.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4db13d62.js",
+    "static/js/2.6de6b1a2.chunk.js",
+    "static/js/main.60d6bd6d.chunk.js"
+  ]
+}
