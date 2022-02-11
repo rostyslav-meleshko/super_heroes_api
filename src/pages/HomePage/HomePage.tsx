@@ -1,9 +1,11 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Box } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
+import { FilterProvider } from "contexts/FilterContext";
 import Header from "components/Header/Header";
 import Main from "components/Main/Main";
-import { withStyles } from "@material-ui/core/styles";
+import FilterSidebar from "components/FilterSidebar/FilterSidebar";
 
 const HomePageBox = withStyles({
   root: {
@@ -17,12 +19,26 @@ const HomePageBox = withStyles({
 })(Box);
 
 const HomePage: FC = () => {
-  return (
-    <HomePageBox>
-      <Header />
+  const [isFiltersOpen, setIsFiltersOpen] = React.useState(false);
 
-      <Main />
-    </HomePageBox>
+  const handleDrawerToggle = (): void => {
+    setIsFiltersOpen(!isFiltersOpen);
+  };
+
+  console.log("render HomePage");
+  return (
+    <FilterProvider>
+      <HomePageBox>
+        <Header toggleFilterSidebar={handleDrawerToggle} />
+
+        <FilterSidebar
+          isOpen={isFiltersOpen}
+          handleDrawerToggle={handleDrawerToggle}
+        />
+
+        <Main />
+      </HomePageBox>
+    </FilterProvider>
   );
 };
 

@@ -1,11 +1,25 @@
 import React, { FC } from "react";
-import { Box, Button, Input } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Input,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import { useHeroSearch } from "hooks/useHeroSearch";
 import { UrlSearchOptions } from "types";
 
-const Header: FC = () => {
+type HeaderProps = {
+  toggleFilterSidebar: () => void;
+};
+
+const Header: FC<HeaderProps> = ({ toggleFilterSidebar }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const history = useHistory();
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -22,9 +36,25 @@ const Header: FC = () => {
     history.push(`?${searchParams.toString()}`);
   };
 
+  console.log("render Header");
   return (
     <header>
-      <Box display="flex" height="50px" minWidth="300px">
+      <Box
+        display="flex"
+        height="50px"
+        minWidth="300px"
+        marginLeft={isMobile ? "0" : "390px"}
+      >
+        {isMobile && (
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleFilterSidebar}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Input
           placeholder="Enter hero name"
           fullWidth={true}
@@ -32,7 +62,6 @@ const Header: FC = () => {
           value={searchValue}
           onChange={(event): void => setSearchValue(event.target.value)}
         />
-
         <Button
           variant="contained"
           size="small"

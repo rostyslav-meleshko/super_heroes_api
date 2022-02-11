@@ -1,25 +1,43 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useContext, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Box, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
+import styled from "styled-components";
 
 import HeroesList from "./HeroesList";
 import ErrorMessage from "components/ui/ErrorMessage";
 import Loader from "components/ui/Loader";
-// import { stateFavoriteHeroes } from "store/selectors";
 import { useServersRequest } from "hooks/useServersRequest";
 import { definePaginatedHeroes } from "./utils";
-import { UrlSearchOptions, ServerFetchUrls } from "types";
+import { ServerFetchUrls, UrlSearchOptions } from "types";
 import { stateFavoriteHeroesByID } from "store/selectors";
+import { CSSconstants } from "types";
+import { FilterContext } from "contexts/FilterContext";
+
+type SectionProps = {
+  isMobile?: boolean;
+};
+
+const Section = styled.section<SectionProps>`
+  width: calc(100% - ${CSSconstants.FilterSidebarWidth}px);
+  width: ${(props: SectionProps): string =>
+    props.isMobile
+      ? "fit-content"
+      : `calc(100% - ${CSSconstants.FilterSidebarWidth}px)`};
+  margin-left: ${(props: SectionProps): string =>
+    props.isMobile ? "0" : "390px"};
+`;
 
 const Main: FC = () => {
+  // TODO move main logic to the context, return visible heroes from context
   const theme = useTheme();
   const [isOnlyFavorite, setIsOnlyFavorite] = useState(false);
   const favoriteHeroesIDs = useSelector(stateFavoriteHeroesByID);
-  // const favoriteHeroes = useSelector(stateFavoriteHeroes);
+  const { filterParams, isFiltered } = useContext(FilterContext);
 
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
   const {
     isLoading,
     data: heroes,
@@ -98,41 +116,85 @@ const Main: FC = () => {
     favoriteHeroes,
   ]);
 
+  const filteredHeroes = useMemo(() => {
+    if (!isFiltered) {
+      return paginatedHeroes;
+    } else {
+      // let filteredHeroesByAppearance = paginatedHeroes.filter((hero) => {
+      //   for (let param in filterParams) {
+      //     if (filterParams[param].length > 0) {
+      //       for (let option of filterParams[param]) {
+      //         // if (option === "alignment" || option === "publisher") {
+      //         //   return hero.biography[param] === option;
+      //         // } else {
+      //         return hero.appearance[param] === option;
+      //         // }
+      //       }
+      //     } else {
+      //       continue;
+      //     }
+      //   }
+      // });
+
+      let filteredHeroesByBiography = paginatedHeroes.filter((hero) => {
+        for (let param in filterParams) {
+          if (filterParams[param].length > 0) {
+            for (let option of filterParams[param]) {
+              // if (option === "alignment" || option === "publisher") {
+              return hero.biography[param] === option;
+              // } else {
+              //   return hero.appearance[param] === option;
+              // }
+            }
+          } else {
+            continue;
+          }
+        }
+      });
+      return filteredHeroesByBiography;
+    }
+  }, [isFiltered, paginatedHeroes, filterParams]);
+
   const ifNoFavoriteHeroes = isOnlyFavorite && !paginatedHeroes.length;
   const isHeroesLoadedSuccessfully =
     !isLoading && !isError && paginatedHeroes.length > 0;
 
+  console.log("render Main");
   return (
     <main>
       <Box
         maxWidth={isMobile ? "sm" : "lg"}
         minWidth={isMobile ? "300px" : "600px"}
+        display={"flex"}
         mt="6px"
       >
-        {isLoading && <Loader />}
+        <Section isMobile={isMobile}>
+          {isLoading && <Loader />}
 
-        {isError && <ErrorMessage text="Loading error. Reload page" />}
+          {isError && <ErrorMessage text="Loading error. Reload page" />}
 
-        {ifNoFavoriteHeroes && (
-          <Typography variant="h5" align="center">
-            You don't have favourite heroes yet
-          </Typography>
-        )}
+          {ifNoFavoriteHeroes && (
+            <Typography variant="h5" align="center">
+              You don't have favourite heroes yet
+            </Typography>
+          )}
 
-        {isHeroesLoadedSuccessfully && (
-          <>
-            <HeroesList isMobile={isMobile} showedHeroes={paginatedHeroes} />
+          {isHeroesLoadedSuccessfully && (
+            <>
+              <HeroesList isMobile={isMobile} showedHeroes={filteredHeroes} />
 
-            <Box display="flex" justifyContent="center" mt="6px">
-              <Pagination
-                count={paginationPagesQuantity}
-                size="small"
-                page={page}
-                onChange={handlePageChange}
-              />
-            </Box>
-          </>
-        )}
+              {/*Todo move to a separate component*/}
+              <Box display="flex" justifyContent="center" mt="6px">
+                <Pagination
+                  count={paginationPagesQuantity}
+                  size="small"
+                  page={page}
+                  onChange={handlePageChange}
+                />
+              </Box>
+            </>
+          )}
+        </Section>
       </Box>
     </main>
   );

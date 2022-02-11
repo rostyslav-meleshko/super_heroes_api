@@ -10,6 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <HashRouter>
+        {/*add here theme provider for breakpoints, etc, colors*/}
         <App />
       </HashRouter>
     </Provider>

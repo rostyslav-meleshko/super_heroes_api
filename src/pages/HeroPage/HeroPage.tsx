@@ -34,6 +34,7 @@ const HeroPage: FC = () => {
 
   const isHeroesLoadedSuccessfully = !isLoading && !isError;
 
+  console.log(hero);
   return (
     <HeroPageBox
       maxWidth={isMobile ? "sm" : "lg"}

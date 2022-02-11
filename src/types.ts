@@ -52,6 +52,18 @@ interface Work extends ISimpleParams {
 }
 
 export interface HeroData {
+  [k: string]:
+    | number
+    | Appearance
+    | Biography
+    | Connections
+    | Images
+    | string
+    | Powerstats
+    | Work
+    // | undefined
+    | boolean;
+
   id: number;
   appearance: Appearance;
   biography: Biography;
@@ -61,12 +73,13 @@ export interface HeroData {
   powerstats: Powerstats;
   slug: string;
   work: Work;
-  isFavorite?: boolean;
+  // isFavorite?: boolean;
 }
 
 export enum UrlSearchOptions {
   HeroName = "heroName",
   IsFavorite = "isFavorites",
+  IsFiltered = "isFiltered",
 }
 
 export enum ServerFetchUrls {
@@ -82,3 +95,19 @@ export enum SessionStorage {
 export type FavoriteHeroesIDs = {
   [key: number]: boolean;
 };
+
+export enum CSSconstants {
+  FilterSidebarWidth = 333,
+}
+
+export enum FilterGroups {
+  Gender = "gender",
+  Alignment = "alignment",
+}
+
+export enum FilterOptions {
+  Male = "Male",
+  Female = "Female",
+  Good = "good",
+  Bad = "bad",
+}

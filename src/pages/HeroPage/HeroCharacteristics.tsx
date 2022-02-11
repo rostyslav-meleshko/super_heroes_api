@@ -124,8 +124,8 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
+                  aria-controls="panel1b-content"
+                  id="panel1b-header"
                   title="Appearance"
                 >
                   <Typography>Appearance</Typography>
@@ -147,8 +147,8 @@ const HeroCharacteristics: FC<HeroDataProps> = ({ hero }) => {
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
+                  aria-controls="panel1c-content"
+                  id="panel1c-header"
                   title="Biography"
                 >
                   <Typography>Biography</Typography>
